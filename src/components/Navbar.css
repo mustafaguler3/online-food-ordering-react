@@ -1,0 +1,10 @@
+.language-flags {
+    display: flex;
+    align-items: center;
+  }
+  
+  .flag-icon {
+    width: 30px;       
+    margin: 0 10px;    
+    cursor: pointer;   
+  }
