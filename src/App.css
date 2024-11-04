@@ -82961,7 +82961,7 @@ app-minimal-top-section .typeahead-menu {
   position: relative;
   width: 100%;
   height: 150px;
-  background: linear-gradient(333.77deg,#ff8d2f 9.66%,#ffd3b0 101.81%);
+  background: black;
   border-radius: 10px 10px 0 0
 }
 

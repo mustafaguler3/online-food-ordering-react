@@ -130,19 +130,19 @@ export function Navbar() {
                 <div className="onhover-box onhover-sm">
                   <ul className="menu-list">
                     <li>
-                      <a className="dropdown-item" href="/zomo/account/change-profile">{t("Profile")}</a>
+                      <Link to="/profile" className="dropdown-item">{t("Profile")}</Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/zomo/account/my-order">{t("My orders")}</a>
+                      <Link to="" className="dropdown-item" >{t("My orders")}</Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/zomo/account/saved-address">{t("Saved Address")}</a>
+                      <Link to="" className="dropdown-item">{t("Saved Address")}</Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/zomo/account/saved-card">{t("Saved cards")}</a>
+                      <Link to="" className="dropdown-item">{t("Saved cards")}</Link>
                     </li>
                     <li>
-                      <a className="dropdown-item" href="/zomo/account/settings">{t("Settings")}</a>
+                      <Link to="" className="dropdown-item">{t("Settings")}</Link>
                     </li>
                   </ul>
                   <div className="bottom-btn">
