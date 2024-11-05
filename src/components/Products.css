@@ -1,0 +1,29 @@
+.vertical-product-box-img {
+    height: 200px; /* Resim kutusunun yüksekliği */
+    width: 100%; /* Genişlik tam olacak şekilde */
+    background-size: cover; /* Resmi kutunun tamamını doldur */
+    background-position: center; /* Resmi ortala */
+    background-repeat: no-repeat; /* Tekrar etme */
+    border-radius: 10px; /* Köşeleri yuvarlat */
+    overflow: hidden; /* Taşan kısımları gizle */
+  }
+  
+  .product-info {
+    padding: 10px; /* Bilgiler kısmına biraz boşluk */
+  }
+  
+  .product-info h4, .product-info p {
+    margin: 0; /* Varsayılan margin'i sıfırla */
+  }
+  
+  .product-info p {
+    color: #666; /* Yazı rengi */
+  }
+  
+  .vertical-product-box {
+    border: 1px solid #f0f0f0; /* Kutuyu çevreleyen ince bir çerçeve */
+    border-radius: 10px; /* Kutunun da köşelerini yuvarlat */
+    overflow: hidden; /* Kutu sınırlarını aşan şeyleri gizle */
+    background-color: white; /* Kutu rengi beyaz */
+  }
+  
