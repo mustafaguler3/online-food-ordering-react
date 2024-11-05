@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Product } from "../models/restaurant";
-import ProductService from "../services/ProductService";
+import { Product } from "../../../models/restaurant";
+import ProductService from "../../../services/ProductService";
 
 export default function Products() {
   const [products, setProducts] = useState<Product[]>([]);

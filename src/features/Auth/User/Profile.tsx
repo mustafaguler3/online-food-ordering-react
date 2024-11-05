@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import AuthService from "../services/AuthService";
 import { useTranslation } from "react-i18next";
+import AuthService from "../../../services/AuthService";
 
 export default function Dashboard() {
   const [currentUser, setCurrentUser] = useState(AuthService.getUserValue());

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
-import "../App.css";
+import "../../App.css";
 import { useTranslation } from "react-i18next";
-import AuthService from "../services/AuthService";
 import { Link } from "react-router-dom";
+import AuthService from "../../services/AuthService";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();

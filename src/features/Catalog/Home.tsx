@@ -1,5 +1,5 @@
 import Header from "./Header";
-import "../App.css"
+import "../../App.css"
 import { Navbar } from "./Navbar";
 import Main from "./Main";
 
