@@ -1,100 +1,160 @@
 import React, { useEffect, useState } from "react";
-import { Product } from "../../../models/restaurant";
+import { Product } from "../../../models/Product";
 import ProductService from "../../../services/ProductService";
+import "./Products.css";
+import { Category } from "../../../models/Category";
+import { useParams } from "react-router-dom";
+interface ProductProps {
+  items: Product[];
+}
 
-export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
+export default function Products({ items }: ProductProps) {
+  const { categoryId } = useParams();
+  const [category, setCategory] = useState<Category[] | any>();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const data = await ProductService.getProducts();
-      if (data) {
-        setProducts(data);
-      }
-    };
-    fetchProducts();
-  }, []);
+  // Group products by category with proper typing
+  const groupProductsByCategory = (
+    products: Product[]
+  ): Record<string, Product[]> => {
+    return products.reduce(
+      (groups: Record<string, Product[]>, product: Product) => {
+        const { category } = product;
+        if (!groups[category]) {
+          groups[category] = [];
+        }
+        groups[category].push(product);
+        return groups;
+      },
+      {}
+    );
+  };
 
+  // Group products by category
+  const categorizedProducts = groupProductsByCategory(items);
   return (
-      <div className="row">
-        {products.map((product) => (
-          <div
-            key={product.id}
-            className="col-xl-3 col-lg-4 col-md-6 ng-star-inserted"
-          >
-            <div className="vertical-product-box product-style-3">
-              <div className="vertical-product-box-img">
-                <a
-                  className="bg-size"
-                  href={`/order/menu-listing/${product.name
-                    .toLowerCase()
-                    .replace(/\s+/g, "-")}`}
-                  style={{
-                    background: `url('${ProductService.getProductImage(
-                      product.foodImageUrls[0]
-                    )}')`,
-                    height: "200px",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    backgroundRepeat: "no-repeat",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <img
-                    alt=""
-                    className="product-img-top w-100 bg-img"
-                    style={{ display: "none" }}
-                    src={ProductService.getProductImage(
-                      product.foodImageUrls[0]
-                    )}
-                  />
-                </a>
-                <div className="offers ng-star-inserted">
-                  <img
-                    src="assets/images/shape.png"
-                    alt="shape"
-                    className="img-fluid"
-                  />
-                  <h6>{product.restaurant.discountDescription}</h6>
-                  <div className="d-flex align-items-center justify-content-end">
-                    <h4>{product.restaurant.discountPercent}% OFF</h4>
-                  </div>
-                </div>
+    <>
+      <div className="row g-lg-3 g-2">
+        <div className="col-lg-4 ng-star-inserted">
+          <div className="product-sidebar sticky-top">
+            <div className="sidebar-search">
+              <input type="text" placeholder="Search Dishes.." />
+              <i className="ri-search-line"></i>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-lg-8 ng-star-inserted">
+          {Object.keys(categorizedProducts).map((category) => (
+            <div
+              key={category}
+              tabIndex={0}
+              className="product-box-section section-b-space"
+              style={{ overflowY: "auto", height: "1000px" }}
+            >
+              <div
+                className="product-details-box-title ng-star-inserted"
+                id="item-1"
+              >
+                {category != null ? category : "no category"}
               </div>
-              <div className="vertical-product-body">
-                <div className="d-flex align-items-center justify-content-between">
-                  <a
-                    href={`/order/menu-listing/${product.name
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`}
-                  >
-                    <h4 className="vertical-product-title">{product.name}</h4>
-                  </a>
-                  <h6 className="rating-star">
-                    <span className="star">
-                      <i className="ri-star-s-fill"></i>
-                    </span>
-                    {product.restaurant.rating}
-                  </h6>
-                </div>
-                <h5 className="product-items">{product.description}</h5>
-                <div className="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
-                  <h5 className="place">{product.restaurant.location}</h5>
-                  <ul className="distance">
-                    <li>
-                      <i className="ri-map-pin-fill icon"></i>
-                      {product.restaurant.distance} km
-                    </li>
-                    <li>
-                      <i className="ri-time-fill icon"></i>
-                      {product.restaurant.deliveryTime} min
-                    </li>
-                  </ul>
+              <div className="scrollspy-example-2">
+                <div className="product-details-box-list">
+                  {categorizedProducts[category].map((item) => (
+                    <>
+                      <div className="ng-star-inserted">
+                        <div className="product-details-box">
+                          <div className="product-img">
+                            <img
+                              alt="rp1"
+                              className="img-fluid img"
+                              src={ProductService.getProductImage(
+                                item.foodImageUrls[0]
+                              )}
+                            />
+                          </div>
+                          <div className="product-content">
+                            <div className="description d-flex align-items-center justify-content-between">
+                              <div>
+                                <div className="d-flex align-items-center gap-2">
+                                  <img
+                                    src="/assets/images/svg/veg.svg"
+                                    alt="veg"
+                                    className="img-fluid ng-star-inserted"
+                                  />
+                                  <h6 className="product-name" id="item-1-1">
+                                    {item.name}
+                                  </h6>
+                                </div>
+                                <div className="rating-section">
+                                  <span className="visually-hidden ng-star-inserted">
+                                    (*)
+                                  </span>
+                                  <span
+                                    className="ng-star-inserted"
+                                    style={{ cursor: "default" }}
+                                  >
+                                    ★
+                                  </span>
+                                  <span className="visually-hidden ng-star-inserted">
+                                    (*)
+                                  </span>
+                                  <span
+                                    className="ng-star-inserted"
+                                    style={{ cursor: "default" }}
+                                  >
+                                    ★
+                                  </span>
+                                  <span className="visually-hidden ng-star-inserted">
+                                    (*)
+                                  </span>
+                                  <span
+                                    className="ng-star-inserted"
+                                    style={{ cursor: "default" }}
+                                  >
+                                    ★
+                                  </span>
+                                  <span className="visually-hidden ng-star-inserted">
+                                    (*)
+                                  </span>
+                                  <span
+                                    className="ng-star-inserted"
+                                    style={{ cursor: "default" }}
+                                  >
+                                    ★
+                                  </span>
+                                  <span className="visually-hidden ng-star-inserted">
+                                    (*)
+                                  </span>
+                                  <span
+                                    className="ng-star-inserted"
+                                    style={{ cursor: "default" }}
+                                  >
+                                    ★
+                                  </span>
+                                  <h6 className="rating-amount">1k+ Ratings</h6>
+                                </div>
+                                <p>{item.description}</p>
+                              </div>
+                              <div className="product-box-price">
+                                <h2 className="theme-color fw-semibold">
+                                  ${item.price}
+                                </h2>
+                                <a className="btn theme-outline add-btn mt-0">
+                                  +Add
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  ))}
                 </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
+    </>
   );
 }

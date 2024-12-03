@@ -81323,7 +81323,7 @@ app-minimal-top-section .typeahead-menu {
 }
 
 .product-box-section {
-  height: 100%!important;
+  
   margin-top: calc(15px + 15 * (100vw - 320px) / 1600);
   padding: calc(10px + .00625*(100vw - 320px));
   background-color: rgba(var(--white),1)

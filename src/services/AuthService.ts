@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
-import { RegisterForm } from '../models/register-form';
+import { RegisterForm } from '../models/Register';
 
 interface User {
   email: string;

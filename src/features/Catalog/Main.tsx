@@ -1,5 +1,6 @@
 import React from "react";
 import Products from "../Products/ProductList/Products";
+import Restaurants from "../Restaurants/RestaurantList/Restaurants";
 
 export default function Main() {
   return (
@@ -15,7 +16,7 @@ export default function Main() {
       <section className="popular-restaurant section-b-space ratio3_2 overflow-hidden ng-star-inserted">
         <div className="container">
           <div className="row g-md-4 g-3">
-            <Products />
+            <Restaurants/>
           </div>
         </div>
       </section>

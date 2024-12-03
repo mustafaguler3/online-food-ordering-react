@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RegisterForm } from "../../models/register-form";
+import { RegisterForm } from "../../models/Register";
 import { useForm } from "react-hook-form";
 import AuthService from "../../services/AuthService";
 import { Link, useNavigate } from "react-router-dom";

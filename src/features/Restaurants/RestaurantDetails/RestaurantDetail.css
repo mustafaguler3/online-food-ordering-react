@@ -1,0 +1,11 @@
+.product-banner-section {
+    background-image: url("/public/assets/images/media/home-bg-ZTUNOW43.jpg");
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    display: flex
+;
+    align-items: flex-end;
+    padding: calc(60px + 49*(100vw - 320px) / 1600) 0 calc(15px + 15*(100vw - 320px) / 1600);
+}

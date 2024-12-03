@@ -1,3 +1,5 @@
+import { Product } from "./Product"
+
 export interface Restaurant {
     id: number
     name: string
@@ -13,11 +15,3 @@ export interface Restaurant {
     products: Product[]
 }
 
-export interface Product {
-    id: number
-    name: string
-    price: number
-    description: string
-    foodImageUrls: String[] | any
-    restaurant: Restaurant,
-}
