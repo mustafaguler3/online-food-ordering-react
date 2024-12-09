@@ -1,40 +1,16 @@
 import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import { RegisterForm } from '../models/Register';
+import authApi from '../api/authApi';
+import { User } from '../models/User';
 
-interface User {
-  email: string;
-  password: string;
-}
-
-interface JwtResponse {
-  token: string;
-}
-
-interface MyJwtResponse {
-  firstName: string;
-  lastName: string;
-  profileImage: string;
-  phoneNumber: string;
-  email: string;
-}
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class AuthService {
-  private currentUser: MyJwtResponse | null = null;
 
-  constructor() {
-    const storedUser = localStorage.getItem("currentUser");
-    this.currentUser = storedUser ? JSON.parse(storedUser) : null;
-    console.log("API URL:", process.env.REACT_APP_API_URL);
-
-  }
-  getUserValue() {
-    return this.currentUser;
-  }
   getProfileImage(image: string) {
-    return `${apiUrl}/uploads/users/${image}`;
+    return `${apiUrl}/auth/uploads/users/${image}`;
   }
 
   async register(user: RegisterForm, profileImage: File) {
@@ -57,24 +33,14 @@ class AuthService {
   }
   
 
-  async login(user: User): Promise<void> {
+  async login(user: any) {
     try {
-      const response = await axios.post<JwtResponse>(`${apiUrl}/login`, user);
+      const response = await authApi.login(user)
 
-      if (response.data.token) {
-        const decodedToken = jwtDecode<MyJwtResponse>(response.data.token);
+      localStorage.setItem("accessToken",response.accessToken);
+      localStorage.setItem("refreshToken",response.refreshToken);
 
-        const currentUser: MyJwtResponse = {
-          firstName: decodedToken.firstName,
-          lastName: decodedToken.lastName,
-          profileImage: decodedToken.profileImage,
-          phoneNumber: decodedToken.phoneNumber,
-          email: decodedToken.email
-        };
-
-        localStorage.setItem("currentUser", JSON.stringify(currentUser));
-        this.currentUser = currentUser;
-      }
+      return response.user;
     } catch (error:any) {
       console.error("Login error:", error);
 
@@ -90,10 +56,8 @@ class AuthService {
   }
 
   logout() {
-    localStorage.removeItem("currentUser");
-    this.currentUser = null;
+    localStorage.clear();
   }
 }
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default new AuthService();

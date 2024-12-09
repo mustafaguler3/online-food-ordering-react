@@ -4,6 +4,7 @@ import AuthService from '../../services/AuthService';
 import { Link } from 'react-router-dom';
 import "./Login.css"
 import { toast } from 'react-toastify';
+import authApi from '../../api/authApi';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -14,8 +15,9 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await AuthService.login({ email, password });
-      //alert("Login successful!");
+      const data = await authApi.login({email,password})
+      localStorage.setItem("accessToken",data.accessToken);
+      localStorage.setItem("refreshToken",data.refreshToken);
       setError(null);
       navigate('/');
     } catch (error: any) {

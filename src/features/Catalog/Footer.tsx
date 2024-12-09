@@ -39,7 +39,7 @@ export default function Footer() {
             <img
               alt="logo"
               className="img-fluid logo"
-              src="assets/images/svg/A.svg"
+              src="../assets/images/svg/A.svg"
             />
             <p>
               Welcome to our online order website! Here, you can browse our wide
@@ -198,7 +198,7 @@ export default function Footer() {
         <img
           alt="card"
           className="img-fluid cards"
-          src="assets/images/icons/footer-card.png"
+          src="../assets/images/icons/footer-card.png"
         />
       </div>
       

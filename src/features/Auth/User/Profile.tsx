@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import AuthService from "../../../services/AuthService";
+import { useUser } from "../../../context/UserContext";
 
 export default function Dashboard() {
-  const [currentUser, setCurrentUser] = useState(AuthService.getUserValue());
   const { t, i18n } = useTranslation();
+  const { user } = useUser()
   
   const getCurrentImage = (image: any) => {
     return AuthService.getProfileImage(image);
@@ -42,14 +43,14 @@ export default function Dashboard() {
               <div className="profile-sidebar sticky-top">
                 <div className="profile-cover">
                   <img
-                    src={getCurrentImage(currentUser?.profileImage)}
+                    src={getCurrentImage(user?.profileImage)}
                     alt="profile"
                     className="img-fluid profile-pic"
                   />
                 </div>
                 <div className="profile-name">
-                  <h5 className="user-name">{currentUser?.firstName}</h5>
-                  <h6>{currentUser?.email}</h6>
+                  <h5 className="user-name">{user?.firstName}</h5>
+                  <h6>{user?.email}</h6>
                 </div>
                 <ul className="profile-list">
                   <li className="active">
@@ -97,7 +98,7 @@ export default function Dashboard() {
                         <i className="ri-user-3-fill"></i>
                         <span>Name :</span>
                       </div>
-                      <h6>{currentUser?.firstName}</h6>
+                      <h6>{user?.firstName}</h6>
                     </div>
                     <a className="btn theme-outline">Edit</a>
                   </li>
@@ -107,7 +108,7 @@ export default function Dashboard() {
                         <i className="ri-mail-fill"></i>
                         <span>Email :</span>
                       </div>
-                      <h6>{currentUser?.email}</h6>
+                      <h6>{user?.email}</h6>
                     </div>
                     <a className="btn theme-outline">Change</a>
                   </li>
@@ -117,7 +118,7 @@ export default function Dashboard() {
                         <i className="ri-phone-fill"></i>
                         <span>Phone Number :</span>
                       </div>
-                      <h6>{currentUser?.phoneNumber}</h6>
+                      <h6>{user?.phoneNumber}</h6>
                     </div>
                     <a className="btn theme-outline">Change</a>
                   </li>

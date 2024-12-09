@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import "./RestaurantDetail.css";
 import Products from "../../Products/ProductList/Products";
 import { Product } from "../../../models/Product";
+import CartItems from "../../CartItems/CartItems";
 
 
 export default function RestaurantDetail() {
@@ -159,7 +160,7 @@ export default function RestaurantDetail() {
 
                 <div className="tab-content product-details-content">
                   <div
-                    className="tab-pane fade ng-star-inserted active show"
+                    className="tab-pane fade active show"
                     id="ngb-nav-0-panel"
                     role="tabpanel"
                     aria-labelledby="ngb-nav-0"
@@ -170,7 +171,7 @@ export default function RestaurantDetail() {
               </div>
 
               <div className="col-lg-3 product-details-content">
-                Cart Items here
+                <CartItems />
               </div>
             </div>
           </div>

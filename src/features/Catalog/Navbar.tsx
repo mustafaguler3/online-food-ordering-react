@@ -4,28 +4,14 @@ import "../../App.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/AuthService";
+import { useUser } from "../../context/UserContext";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-
-  //const currentUser = AuthService.getUserValue()
-  const [currentUser, setCurrentUser] = useState(AuthService.getUserValue());
-  
-  useEffect(() => {
-    const user = AuthService.getUserValue();
-    setCurrentUser(user)
-  },[])
-
-  const handleLogout = () => {
-    AuthService.logout(); 
-    setCurrentUser(null)
-    window.location.reload(); 
-  };
-
-  
+  const { user,logout } = useUser();
 
   return (
     <header>
@@ -41,7 +27,7 @@ export function Navbar() {
               <img
                 alt="logo"
                 className="img-fluid logo"
-                src="assets/images/svg/A.svg"
+                src="../assets/images/svg/A.svg"
               />
             </Link>
             <a
@@ -102,29 +88,29 @@ export function Navbar() {
 
             <div className="language-flags">
               <img
-                src="assets/images/tr.png"
+                src="../assets/images/tr.png"
                 alt="TR"
                 className="flag-icon"
                 onClick={() => changeLanguage("tr")}
               />
 
               <img
-                src="assets/images/us.png"
+                src="../assets/images/us.png"
                 alt="EN"
                 className="flag-icon"
                 onClick={() => changeLanguage("en")}
               />
             </div>
 
-            {currentUser ? (
+            {user ? (
               <div className="profile-part dropdown-button order-md-2">
                 <img
-                  src={AuthService.getProfileImage(currentUser.profileImage)}
+                  src={AuthService.getProfileImage(user.profileImage)}
                   alt="profile"
                   className="img-fluid profile-pic"
                 />
                 <div>
-                  <h6 className="fw-normal">{t("Hi")}, {currentUser.firstName}</h6>
+                  <h6 className="fw-normal">{t("Hi")}, {user.firstName}</h6>
                   <h5 className="fw-medium">{t("My Account")}</h5>
                 </div>
                 <div className="onhover-box onhover-sm">
@@ -146,7 +132,7 @@ export function Navbar() {
                     </li>
                   </ul>
                   <div className="bottom-btn">
-                    <a className="theme-color fw-medium" onClick={handleLogout}>
+                    <a className="theme-color fw-medium" onClick={logout}>
                       <i className="ri-login-box-line me-2"></i>
                       {t("Logout")}
                     </a>
