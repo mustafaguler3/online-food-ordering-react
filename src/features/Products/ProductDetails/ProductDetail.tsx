@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import "../../../App.css";
 import { Product } from "../../../models/Product";
-import ProductService from "../../../services/ProductService";
+import ProductService from "../../../services/productService";
 
 
 export default function ProductDetail() {

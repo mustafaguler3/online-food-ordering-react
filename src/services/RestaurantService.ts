@@ -28,7 +28,7 @@ class RestaurantService {
     }
 
     getRestaurantImage(image: string) {
-        return `${apiUrl}/uploads/restaurants/${image}`;
+        return `${apiUrl}/auth/uploads/restaurants/${image}`;
     }
 }
 

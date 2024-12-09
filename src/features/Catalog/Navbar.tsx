@@ -3,7 +3,7 @@ import "./Navbar.css";
 import "../../App.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import AuthService from "../../services/AuthService";
+import AuthService from "../../services/authService";
 import { useUser } from "../../context/UserContext";
 
 export function Navbar() {

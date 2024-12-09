@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Restaurant } from "../../../models/Restaurant";
-import RestaurantService from "../../../services/RestaurantService";
+import RestaurantService from "../../../services/restaurantService";
 import { Link, useParams } from "react-router-dom";
 import "./RestaurantDetail.css";
 import Products from "../../Products/ProductList/Products";

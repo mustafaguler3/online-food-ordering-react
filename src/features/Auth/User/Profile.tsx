@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import AuthService from "../../../services/AuthService";
+import AuthService from "../../../services/authService";
 import { useUser } from "../../../context/UserContext";
 
 export default function Dashboard() {

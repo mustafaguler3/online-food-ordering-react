@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { User } from "../models/User";
 import userService from "../services/userService";
-import AuthService from "../services/AuthService";
+import AuthService from "../services/authService";
 
 interface UserContextProps {
     user: User;

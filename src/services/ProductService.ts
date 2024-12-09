@@ -37,7 +37,7 @@ class ProductService {
     } 
 
     getProductImage(image: string) {
-        return `${apiUrl}/uploads/products/${image}`;
+        return `${apiUrl}/auth/uploads/products/${image}`;
     }
 }
 

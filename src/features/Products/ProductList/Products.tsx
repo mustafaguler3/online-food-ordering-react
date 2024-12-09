@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Product } from "../../../models/Product";
-import ProductService from "../../../services/ProductService";
+import ProductService from "../../../services/productService";
 import "./Products.css";
 interface ProductProps {
   items: Product[];

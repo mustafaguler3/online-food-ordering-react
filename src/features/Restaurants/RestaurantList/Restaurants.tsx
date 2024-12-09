@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import RestaurantService from "../../../services/RestaurantService";
-import ProductService from "../../../services/ProductService";
+import ProductService from "../../../services/productService";
 import { Restaurant } from "../../../models/Restaurant";
 
 export default function Restaurants() {
@@ -8,7 +7,7 @@ export default function Restaurants() {
 
   useEffect(() => {
     const fetchRestaurant = async () => {
-      const data = await RestaurantService.getRestaurants();
+      const data = await restaurantService.getRestaurants();
       console.log("effect outside -> "+data)
       if (data) {
         console.log("effect inside-> "+data)
