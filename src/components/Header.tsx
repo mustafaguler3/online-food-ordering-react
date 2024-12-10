@@ -1,5 +1,5 @@
 import React from "react";
-import Categories from "../Category/Categories";
+import Categories from "../features/Category/Categories";
 
 export default function Header() {
   return (

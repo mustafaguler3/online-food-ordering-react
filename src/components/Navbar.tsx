@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
-import "../../App.css";
+import "../App.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import AuthService from "../../services/authService";
-import { useUser } from "../../context/UserContext";
+import AuthService from "../services/authService";
+import { useUser } from "../context/UserContext";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
@@ -76,12 +76,12 @@ export function Navbar() {
                   <h4 className="theme-color fw-semibold">$155.00</h4>
                 </div>
                 <div className="button-group">
-                  <a
+                  <Link
                     className="btn btn-sm theme-btn w-100 d-block rounded-2"
-                    href="/zomo/order/checkout"
+                    to={"/cart"}
                   >
                     {t("View Cart")}
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>

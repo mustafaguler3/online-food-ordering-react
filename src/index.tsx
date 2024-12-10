@@ -9,6 +9,9 @@ import "./App.css"
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/Routes';
 import { UserProvider } from './context/UserContext';
+import { CartProvider } from './features/Cart/context/CartContext';
+import CartPage from './features/Cart/pages/CartPage';
+
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,7 +19,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
       <UserProvider>
+        <CartProvider>
           <RouterProvider router={router} />
+        </CartProvider>
       </UserProvider>
   </React.StrictMode>
 );

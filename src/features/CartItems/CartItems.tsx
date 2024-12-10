@@ -1,6 +1,7 @@
 import React from "react";
 
 export default function CartItems() {
+  
   return (
     <div className="order-summery-section sticky-top">
       <div className="checkout-detail">

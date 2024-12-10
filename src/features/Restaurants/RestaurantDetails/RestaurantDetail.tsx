@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Restaurant } from "../../../models/Restaurant";
-import RestaurantService from "../../../services/restaurantService";
+import restaurantService from "../../../services/restaurantService";
 import { Link, useParams } from "react-router-dom";
 import "./RestaurantDetail.css";
 import Products from "../../Products/ProductList/Products";
@@ -18,8 +18,7 @@ export default function RestaurantDetail() {
     const getRestaurant = async () => {
       if (restaurantId) {
         try {
-          const data = await RestaurantService.getRestaurant(restaurantId);
-          console.log("Rest products -> " + data?.products);
+          const data = await restaurantService.getRestaurant(restaurantId);
           if (data) {
             setRestaurant(data);
             setProducts(data?.products);
@@ -47,7 +46,7 @@ export default function RestaurantDetail() {
               <img
                 alt={restaurant.name}
                 className="img-fluid img"
-                src={RestaurantService.getRestaurantImage(
+                src={restaurantService.getRestaurantIcon(
                   restaurant.restaurantIcon
                 )}
               />

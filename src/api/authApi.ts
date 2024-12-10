@@ -1,5 +1,6 @@
 import axiosClient from "./axiosClient";
 import { LoginRequest, LoginResponse, RefreshTokenResponse, RegisterRequest, RegisterResponse } from "./types/authTypes";
+
 const authApi = {
     login: (data: LoginRequest): Promise<LoginResponse> => {
         return axiosClient.post("/auth/login",data)

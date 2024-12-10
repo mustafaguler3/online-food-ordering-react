@@ -1,6 +1,6 @@
-import Header from "./Header";
+import Header from "../../components/Header";
 import "../../App.css"
-import { Navbar } from "./Navbar";
+import { Navbar } from "../../components/Navbar";
 import Main from "./Main";
 
 export function Home(){

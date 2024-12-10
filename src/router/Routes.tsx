@@ -6,6 +6,7 @@ import Register from "../features/Auth/Register";
 import Profile from "../features/Auth/User/Profile";
 import RestaurantDetail from "../features/Restaurants/RestaurantDetails/RestaurantDetail";
 import Restaurants from "../features/Restaurants/RestaurantList/Restaurants";
+import CartPage from "../features/Cart/pages/CartPage";
 
 export const router = createBrowserRouter([
     {
@@ -13,6 +14,7 @@ export const router = createBrowserRouter([
         element: <App/>,
         children: [
             {path:"",element: <Home/>},
+            {path:"/cart",element:<CartPage/>},
             {path:"/login",element: <Login/>},
             {path:"/register",element: <Register/>},
             {path:"/profile",element: <Profile/>},

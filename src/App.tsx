@@ -3,9 +3,9 @@ import "./App.css";
 import { Outlet, Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from "react-toastify";
-import { Navbar } from "./features/Catalog/Navbar";
-import Footer from "./features/Catalog/Footer";
-
+import { Navbar } from "./components/Navbar";
+import Footer from "./components/Footer";
+import '@fontsource/roboto/700.css';
 
 function App() {
   return (
