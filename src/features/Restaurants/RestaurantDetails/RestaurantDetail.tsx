@@ -5,7 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import "./RestaurantDetail.css";
 import Products from "../../Products/ProductList/Products";
 import { Product } from "../../../models/Product";
-import CartItems from "../../CartItems/CartItems";
+import CartItem from "../../Cart/components/CartItem";
 
 
 export default function RestaurantDetail() {
@@ -170,7 +170,7 @@ export default function RestaurantDetail() {
               </div>
 
               <div className="col-lg-3 product-details-content">
-                <CartItems />
+                <CartItem items={[]} />
               </div>
             </div>
           </div>

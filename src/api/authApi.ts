@@ -1,17 +1,26 @@
+import axios from "axios";
 import axiosClient from "./axiosClient";
 import { LoginRequest, LoginResponse, RefreshTokenResponse, RegisterRequest, RegisterResponse } from "./types/authTypes";
+import { User } from "../models/User";
+
+const apiUrl = process.env.REACT_APP_API_URL;
 
 const authApi = {
-    login: (data: LoginRequest): Promise<LoginResponse> => {
-        return axiosClient.post("/auth/login",data)
+    login: (data: User) => {
+        return axiosClient.post(`${apiUrl}/auth/login`,data)
         .then(res => res.data)
-        .catch((error) => {
-            console.log("Login error",error)
-            throw error;
+        .catch(error => {
+            if (error.response) {
+                // Backend'den gelen yanıtı hata olarak atıyoruz
+                throw error.response; // Hata yanıtının tamamını atıyoruz, içindeki data'yı kontrol edebilirsiniz
+              } else {
+                throw new Error('An unexpected error occurred');
+              }
         })
+        
     },
     register: (data: RegisterRequest): Promise<RegisterResponse> => {
-        return axiosClient.post("/auth/register",data)
+        return axiosClient.post(`${apiUrl}/auth/register`,data)
         .then(res => res.data)
         .catch((error) => {
             console.log("Register error",error)

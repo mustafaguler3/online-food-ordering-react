@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import "./Login.css"
 import { toast } from 'react-toastify';
 import authApi from '../../api/authApi';
+import { User } from '../../models/User';
+import { useForm } from 'react-hook-form';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,14 +17,26 @@ const Login: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const data = await authApi.login({email,password})
+
+      const user : any = {
+        email,
+        password,
+      };
+
+      const data = await authApi.login(user)
       localStorage.setItem("accessToken",data.accessToken);
       localStorage.setItem("refreshToken",data.refreshToken);
       setError(null);
       navigate('/');
     } catch (error: any) {
-      setError(error.message || 'An unexpected error occurred. Please try again later.');
-      toast.error(error.message)
+      if (error.message) {
+        // Backend'den gelen hata mesajını göstermek için error.message kullanabilirsiniz
+        setError(error.message);
+        toast.error(error.message);
+      } else {
+        setError('An unexpected error occurred');
+        toast.error('An unexpected error occurred');
+      }
     }
   };
 

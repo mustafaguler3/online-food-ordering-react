@@ -4,6 +4,8 @@ import CartList from "../components/CartList";
 import { useParams } from "react-router-dom";
 import { useUser } from "../../../context/UserContext";
 import { useCart } from "../context/CartContext";
+import { Link } from "react-router-dom";
+import CartItem from "../components/CartItem";
 
 export default function CartPage() {
   const { basket, loadBasket, addToCart } = useCart();
@@ -41,42 +43,58 @@ export default function CartPage() {
         </div>
       </section>
 
-      <section className="empty-cart-section section-b-space">
+      <section className="account-section section-b-space pt-0">
         <div className="container">
-          {basket?.items && basket.items.length > 0 ? (
-            <div>
-              <ul>
-                {basket.items.map((item, index) => (
-                  <li key={index}>
-                    Product ID: {item.productId}, Quantity: {item.quantity}
-                  </li>
-                ))}
-              </ul>
-              <h3>Total Price: ${basket.totalPrice}</h3>
-            </div>
-          ) : (
-            <section className="empty-cart-section section-b-space">
-              <div className="container">
-                <div className="empty-cart-image">
-                  <div>
-                    <img
-                      src="assets/images/empty-cart.svg"
-                      alt="empty-cart"
-                      className="img-fluid img"
-                    />
-                    <h2>It’s empty in your cart</h2>
-                    <h5>To browse more restaurants, visit the main page.</h5>
-                    <a
-                      className="btn theme-outline restaurant-btn"
-                      href="/zomo/home/classNameic"
-                    >
-                      see restaurant near you
-                    </a>
-                  </div>
+          <div className="layout-sec">
+            <div className="row g-lg-4 g-4">
+              <div className="col-lg-8">
+                <div className="process-section">
+                  <ul className="process-list">
+                    <li>
+                      <a href="/zomo/order/address">
+                        <div className="process-icon">
+                          <img
+                            alt="location"
+                            className="img-fluid icon ng-star-inserted"
+                            src="assets/images/svg/location.svg"
+                          />
+                        </div>
+                        <h6>Address</h6>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/zomo/order/payment">
+                        <div className="process-icon">
+                          <img
+                            alt="wallet-add"
+                            className="img-fluid icon ng-star-inserted"
+                            src="assets/images/svg/wallet-add.svg"
+                          />
+                        </div>
+                        <h6>Payment</h6>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="/zomo/order/confirm-order">
+                        <div className="process-icon">
+                          <img
+                            alt="verify"
+                            className="img-fluid icon"
+                            src="assets/images/svg/verify.svg"
+                          />
+                        </div>
+                        <h6>Confirm</h6>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
+                
               </div>
-            </section>
-          )}
+              <div className="col-lg-4">
+                <CartItem items={basket?.items}/>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
     </div>

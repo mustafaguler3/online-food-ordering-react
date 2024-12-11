@@ -17,9 +17,11 @@ export interface Basket {
 export interface BasketItem {
     id: number
     productId: number
+    productName: string
+    productImage: string
     basket: Basket
     quantity: number     
     unitPrice: number  
     discount: number   
-    totalPrice: number
+    price: number
 }

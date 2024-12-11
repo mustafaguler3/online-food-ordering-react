@@ -1,19 +1,79 @@
-<section className="empty-cart-section section-b-space">
+<section className="account-section section-b-space pt-0">
   <div className="container">
-    <div className="empty-cart-image">
-      <div>
-        <img
-          src="assets/images/empty-cart.svg"
-          alt="empty-cart"
-          className="img-fluid img"
-        />
-        <h2>It’s empty in your cart</h2>
-        <h5>To browse more restaurants, visit the main page.</h5>
-        <a
-          className="btn theme-outline restaurant-btn"
-          href="/zomo/home/classNameic"
-          >see restaurant near you</a
-        >
+    <div className="layout-sec">
+      <div className="row g-lg-4 g-4">
+        <div className="col-lg-8">
+          
+          <app-order
+            ><div className="process-section">
+              <ul className="process-list">
+                
+              <li routerlinkactive="active">
+                  <a href="/zomo/order/address"
+                    ><div className="process-icon">
+                      <!----><img
+                        alt="location"
+                        className="img-fluid icon ng-star-inserted"
+                        src="assets/images/svg/location.svg"
+                      /><!---->
+                    </div>
+                    <h6>Address</h6></a
+                  >
+                </li>
+                <li routerlinkactive="active">
+                  <a href="/zomo/order/payment"
+                    ><div className="process-icon">
+                      <!----><img
+                        alt="wallet-add"
+                        className="img-fluid icon ng-star-inserted"
+                        src="assets/images/svg/wallet-add.svg"
+                      /><!---->
+                    </div>
+                    <h6>Payment</h6></a
+                  >
+                </li>
+                <li routerlinkactive="active">
+                  <a href="/zomo/order/confirm-order"
+                    ><div className="process-icon">
+                      <img
+                        alt="verify"
+                        className="img-fluid icon"
+                        src="assets/images/svg/verify.svg"
+                      />
+                    </div>
+                    <h6>Confirm</h6></a
+                  >
+                </li>
+              </ul>
+            </div>
+            </app-order
+          >
+          <div className="account-part">
+            <img
+              src="assets/images/account.svg"
+              alt="account"
+              className="img-fluid account-img"
+            />
+            <div className="title mb-0">
+              <div className="loader-line"></div>
+              <h3>Account</h3>
+              <p>
+                To place your order now, log in to in your existing account or
+                sign up
+              </p>
+              <div className="account-btn d-flex justify-content-center gap-2">
+                <a className="btn theme-outline mt-0" href="/zomo/pages/sign-in"
+                  >SIGN IN</a
+                ><a className="btn theme-outline mt-0" href="/zomo/pages/sign-up"
+                  >SIGN UP</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-lg-4">
+          
+        </div>
       </div>
     </div>
   </div>

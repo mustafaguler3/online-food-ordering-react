@@ -9,6 +9,8 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 class AuthService {
 
+  
+
   getProfileImage(image: string) {
     return `${apiUrl}/auth/uploads/users/${image}`;
   }
@@ -43,17 +45,22 @@ class AuthService {
       return response.user;
     } catch (error:any) {
       console.error("Login error:", error);
-
-      if (axios.isAxiosError(error)) {
-        if (error.response && error.response.status === 401) {
-          throw new Error(error.response.data.message || "Invalid email or password");
-        } else if (error.response) {
-          throw new Error(`Login failed with status ${error.response.status}`);
+      if (error.response) {
+        // Hata yanıtını kullanarak uygun mesajı ayarlıyoruz
+        if (error.response.status === 403) {
+          throw new Error(error.response.data || 'Please, firstly verify your email address');
+        } else {
+          throw new Error(error.response.data || 'An unexpected error occurred');
         }
+      } else if (error.request) {
+        throw new Error('No response from server');
+      } else {
+        throw new Error('An unexpected error occurred');
       }
-      
     }
-  }
+    }
+      
+  
 
   logout() {
     localStorage.clear();

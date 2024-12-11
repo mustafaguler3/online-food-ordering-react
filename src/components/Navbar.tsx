@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import AuthService from "../services/authService";
 import { useUser } from "../context/UserContext";
+import { useCart } from "../features/Cart/context/CartContext";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
@@ -12,6 +13,7 @@ export function Navbar() {
     i18n.changeLanguage(lang);
   };
   const { user,logout } = useUser();
+  const { basket } = useCart();
 
   return (
     <header>
@@ -42,7 +44,7 @@ export function Navbar() {
           <div className="nav-option order-md-2">
             <div className="dropdown-button">
               <div className="cart-button">
-                <span>1</span>
+                <span>{basket?.items.length}</span>
                 <i className="ri-shopping-cart-line text-white cart-bag"></i>
               </div>
               <div className="onhover-box">
@@ -73,7 +75,7 @@ export function Navbar() {
                 </ul>
                 <div className="price-box">
                   <h5>Total :</h5>
-                  <h4 className="theme-color fw-semibold">$155.00</h4>
+                  <h4 className="theme-color fw-semibold">${basket?.grandTotal}</h4>
                 </div>
                 <div className="button-group">
                   <Link
