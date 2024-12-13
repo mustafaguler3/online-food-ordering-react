@@ -4,11 +4,17 @@ import ProductService from "../../../services/productService";
 import "./Products.css";
 import { useCart } from "../../Cart/context/CartContext";
 import { toast } from "react-toastify";
+import cartService from "../../../services/cartService";
 interface ProductProps {
   items: Product[];
 }
 
 export default function Products({ items }: ProductProps) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  
+  const { addToCart } = useCart();
+
   const groupProductsByCategory = (
     products: Product[]
   ): Record<string, Product[]> => {
@@ -26,10 +32,26 @@ export default function Products({ items }: ProductProps) {
   };
   const categorizedProducts = groupProductsByCategory(items);
 
-  const { addToCart } = useCart();
+  const handleAddToCart = async (productId: number, quantity: number) => {
+    setLoading(true);
+    try {
+      //await cartService.addToCart(productId, quantity);
+      await addToCart(productId,quantity);
+      setError(null);
+      toast.success("Added successfully")
+    } catch (err) {
+      setError("Failed to add product to cart.");
+      toast.error("Failed to add")
+      console.error("Failed to add product to cart", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
+    {loading && <div>Loading...</div>}
+    {error && <div className="error-message">{error}</div>}
       <div className="row g-lg-3 g-2">
         <div className="col-lg-4">
           <div className="product-sidebar sticky-top">
@@ -134,15 +156,9 @@ export default function Products({ items }: ProductProps) {
                               </h2>
                               <button
                                 onClick={() => {
-                                  addToCart(item.id, 1);
+                                  handleAddToCart(item.id,1);
                                   toast.success(`${item.name} added to cart!`, {
-                                    position: "top-right",
-                                    autoClose: 3000,
-                                    hideProgressBar: true,
-                                    closeOnClick: true,
-                                    pauseOnHover: true,
-                                    draggable: true,
-                                    progress: undefined,
+                                    position: "top-right"
                                   });
                                 }}
                                 className="btn theme-outline add-btn mt-0"

@@ -24,9 +24,8 @@ class CartService {
     }
     async addToCart(productId: number, quantity: number) {
       try {
-        const response = await cartApi.addToCart(productId,quantity);
-
-        return response;
+        await cartApi.addToCart(productId,quantity);
+        console.log("Product added to cart successfully.");
       }catch (error) {
         console.error("Error fetching basket:", error);
     

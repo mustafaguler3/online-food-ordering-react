@@ -2,10 +2,6 @@
     display: flex;
     align-items: center;
   }
-  .ri-shopping-cart-line {
-    font-size: 24px; 
-    padding: 5px;
-  }
   
   .flag-icon {
     width: 30px;       

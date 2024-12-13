@@ -8,6 +8,7 @@ interface CartContextType {
     basket: Basket | null;
     loadBasket: (userId: number) => Promise<void>
     addToCart: (productId: number, quantity: number) => Promise<void>;
+    totalCount: number
     //removeFromCart: (id: number) => void;
     //updateQuantity: (id: number,quantity: number) => void;
     //clearCart: () => void; 
@@ -17,20 +18,22 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({children}: {children: ReactNode}) => {
     const [basket, setBasket] = useState<Basket | null>(null);
+    const [totalCount, setTotalCount] = useState<number>(0)
 
     const loadBasket = async (userId: number) => {
         const data = await cartApi.getBasket(userId);
         setBasket(data);
+        setTotalCount(data.items.length)
     }
 
     const addToCart = async (productId: number,quantity: number) => {
         await cartApi.addToCart(productId,quantity)
-        if(basket) loadBasket(basket?.user.id)
+        if(basket) loadBasket(basket.user.id)
     }
 
 
     return (   
-        <CartContext.Provider value={{basket,addToCart,loadBasket}}>
+        <CartContext.Provider value={{basket,addToCart,loadBasket,totalCount}}>
             {children}
         </CartContext.Provider>
     )

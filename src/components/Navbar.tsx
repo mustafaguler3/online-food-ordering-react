@@ -15,7 +15,8 @@ export function Navbar() {
   };
   const { user, logout } = useUser();
   const { basket } = useCart();
-  const totalCount = basket?.items.reduce(
+
+  const totalCount:any = basket?.items.reduce(
     (sum, item) => sum + item.quantity,
     0
   );
@@ -47,14 +48,14 @@ export function Navbar() {
 
           <div className="nav-option order-md-2">
             <div className="dropdown-button">
-              {basket?.items.map((item) => (
                 <>
                   <div className="cart-button">
-                    <span>{totalCount == null ? 0 : totalCount}</span>
+                    <span>{totalCount > 0 ? totalCount : 0}</span>
                     <i className="ri-shopping-cart-line text-white cart-bag"></i>
                   </div>
                   <div className="onhover-box">
                     <ul className="cart-list">
+                    {basket?.items.map((item) => (
                       <li className="product-box-contain">
                         <div className="drop-cart">
                           <a href="javascript:void(0);" className="drop-image">
@@ -79,6 +80,7 @@ export function Navbar() {
                           </div>
                         </div>
                       </li>
+                      ))}
                     </ul>
                     <div className="price-box">
                       <h5>Total :</h5>
@@ -96,7 +98,7 @@ export function Navbar() {
                     </div>
                   </div>
                 </>
-              ))}
+              
             </div>
 
             <div className="language-flags">
