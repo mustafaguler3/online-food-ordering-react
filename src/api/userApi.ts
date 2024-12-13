@@ -1,5 +1,6 @@
 import { User } from "../models/User";
 import axiosClient from "./axiosClient";
+import { Address } from "./types/userTypes";
 
 const userApi = {
     getUserInfo: () : Promise<User> => {
@@ -13,6 +14,18 @@ const userApi = {
                 throw new Error('An unexpected error occurred');
               }
         })
+    },
+
+    addAddress: (address: Address): Promise<void> => {
+      return axiosClient.post(`/user/add-address`,address)
+      .then(res => res.data)
+      .catch(error => {
+        if(error.response) {
+          throw error.response
+        }else {
+          throw new Error('An unexpected error occurred');
+        }
+      })
     }
 }
 

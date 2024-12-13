@@ -1,0 +1,185 @@
+:root {
+    --theme-color: 242, 169, 62;
+    --theme-color2: 240, 112, 84;
+    --light-theme-color: 255, 240, 227;
+    --white: 255, 255, 255;
+    --black: 0, 0, 0;
+    --dark-text: 61, 61, 61;
+    --content-color: 116, 116, 116;
+    --box-bg: 249, 249, 249;
+    --auth-bg: 240, 242, 241;
+    --success-color: 39, 125, 42;
+    --error-color: 245, 58, 58;
+    --accent-color: 58, 109, 229;
+    --rate-color: 255, 185, 49;
+    --secondary-color: 250, 177, 69;
+    --dashed-line: 232, 232, 232;
+  }
+  
+  .process-icon img {
+    opacity: 0.5; /* Inactive icon opacity */
+    transition: opacity 0.3s ease;
+  }
+  
+  .process-icon.active img {
+    opacity: 1; /* Fully visible for active icons */
+  }
+  
+
+  .process-section .process-list li .process-icon {
+    width: calc(40px + .0075*(100vw - 320px));
+    height: calc(40px + .0075*(100vw - 320px));
+    display: flex
+;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin: 0 auto;
+    border: 1px solid rgba(var(--dashed-line), 1);
+    border-radius: 100%;
+    background-color: rgba(var(--white), 1);
+    position: relative;
+    z-index: 1;
+}
+
+.process-section .process-list li.active:before {
+    border-bottom-color: orange;
+}
+
+.process-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .process-list li {
+    text-align: center;
+  }
+  
+  .process-list li .process-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(var(--box-bg), 1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px auto;
+    border: 2px dashed rgba(var(--dashed-line), 1);
+  }
+  
+  
+  .process-list li h6 {
+    color: rgba(var(--content-color), 1);
+  }
+  
+  .process-list li h6.text-warning {
+    color: rgba(var(--theme-color2), 1);
+  }
+  
+  .process-list li h6.text-orange {
+    color: rgba(var(--theme-color), 1);
+  }
+  
+.process-section .process-list li:before {
+    content: "";
+    position: absolute;
+    right: 40px;
+    top: 30%;
+    width: 290px;
+    height: 1px;
+    border: 1px dashed rgba(var(--dashed-line), 1);
+}
+
+.process-section {
+    padding: calc(10px + 15*(100vw - 320px) / 1600) calc(10px + .0125*(100vw - 320px));
+    background-color: rgba(var(--white), 1);
+}
+.process-section .process-list li {
+    text-align: center;
+    position: relative;
+}
+.process-section .process-list li.active .process-icon {
+    border: 1px dashed rgba(var(--theme-color), 1);
+}
+.process-section .process-list li a {
+    display: block;
+}
+.process-section .process-list {
+    position: relative;
+    display: flex
+;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.process-section .process-list li.active h6 {
+    color: orange;
+    font-weight: 500;
+}
+
+
+.process-list {
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  .process-list li {
+    text-align: center;
+    position: relative;
+    list-style: none;
+    flex: 1;
+  }
+  
+  .process-list .progress-line {
+    width: 100%;
+    height: 2px;
+    background-color: rgba(var(--dashed-line), 1); /* Default gray */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+  
+  .process-list .progress-line.completed-line {
+    background-color: rgba(var(--theme-color), 1); /* Orange */
+  }
+  
+  .process-list li .process-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(var(--box-bg), 1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px auto;
+    border: 2px dashed rgba(var(--dashed-line), 1); /* Default dashed */
+  }
+  
+  .process-list li .process-icon.completed {
+    background-color: rgba(var(--theme-color2), 0.2);
+    border-color: rgba(var(--theme-color), 1); /* Orange for completed */
+  }
+  
+  .process-list li .process-icon.active {
+    
+    border-color: rgba(var(--theme-color2), 1);
+  }
+  
+  .process-list li h6 {
+    margin-top: 5px;
+    font-size: 14px;
+    color: rgba(var(--content-color), 1);
+  }
+  
+  .process-list li h6.text-warning {
+    color: rgba(var(--theme-color), 1);
+  }
+  
+  .process-list li h6.text-orange {
+    color: rgba(var(--theme-color), 1); /* Text for completed steps */
+  }
+  

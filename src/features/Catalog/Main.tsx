@@ -16,7 +16,7 @@ export default function Main() {
       <section className="popular-restaurant section-b-space ratio3_2 overflow-hidden ng-star-inserted">
         <div className="container">
           <div className="row g-md-4 g-3">
-            <Restaurants/>
+            <Restaurants />
           </div>
         </div>
       </section>

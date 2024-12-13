@@ -1,11 +1,13 @@
-import React, { useEffect } from "react";
-import CartList from "../components/CartList";
-
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useUser } from "../../../context/UserContext";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
+import AddressForm from "../components/AddressForm";
+import PaymentForm from "../components/PaymentForm";
+import ConfirmOrder from "../components/ConfirmOrder";
+import "./CartPage.css";
 
 export default function CartPage() {
   const { basket, loadBasket, addToCart } = useCart();
@@ -17,8 +19,23 @@ export default function CartPage() {
     }
   }, [user]);
 
+  const [currentStep, setCurrentStep] = useState(0);
+  const steps = ["Address", "Payment", "Confirm Order"];
+
+  const handleNextStep = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep((prev) => prev - 1);
+    }
+  };
+
   return (
-    <div>
+    <div className="bg-color">
       <section className="page-head-section">
         <div className="container page-heading">
           <h2 className="h3 mb-3 text-white text-center ng-star-inserted">
@@ -48,50 +65,75 @@ export default function CartPage() {
           <div className="layout-sec">
             <div className="row g-lg-4 g-4">
               <div className="col-lg-8">
+                {/* Process Section */}
                 <div className="process-section">
                   <ul className="process-list">
-                    <li>
-                      <a href="/zomo/order/address">
-                        <div className="process-icon">
-                          <img
-                            alt="location"
-                            className="img-fluid icon ng-star-inserted"
-                            src="assets/images/svg/location.svg"
-                          />
-                        </div>
-                        <h6>Address</h6>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/zomo/order/payment">
-                        <div className="process-icon">
-                          <img
-                            alt="wallet-add"
-                            className="img-fluid icon ng-star-inserted"
-                            src="assets/images/svg/wallet-add.svg"
-                          />
-                        </div>
-                        <h6>Payment</h6>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="/zomo/order/confirm-order">
-                        <div className="process-icon">
-                          <img
-                            alt="verify"
-                            className="img-fluid icon"
-                            src="assets/images/svg/verify.svg"
-                          />
-                        </div>
-                        <h6>Confirm</h6>
-                      </a>
-                    </li>
+                    {steps.map((step, index) => (
+                      <>
+                        <li key={index}>
+                          <div
+                            className={`process-icon ${
+                              currentStep === index ? "active" : ""
+                            } ${currentStep > index ? "completed" : ""}`}
+                          >
+                            <img
+                              alt={step.toLowerCase()}
+                              className="img-fluid icon"
+                              src={`assets/images/svg/${
+                                currentStep >= index
+                                  ? index === 0
+                                    ? "location-active"
+                                    : index === 1
+                                    ? "wallet-add-active"
+                                    : "verify-active"
+                                  : index === 0
+                                  ? "location"
+                                  : index === 1
+                                  ? "wallet-add"
+                                  : "verify"
+                              }.svg`}
+                            />
+                          </div>
+                          <h6
+                            className={`${
+                              currentStep === index
+                                ? "text-warning"
+                                : currentStep > index
+                                ? "text-orange"
+                                : ""
+                            }`}
+                          >
+                            {step}
+                          </h6>
+                        </li>
+
+                        {/* Progress Line */}
+                        {index < steps.length - 1 && (
+                          <div
+                            className={`progress-line ${
+                              currentStep > index ? "completed-line" : ""
+                            }`}
+                          ></div>
+                        )}
+                      </>
+                    ))}
                   </ul>
                 </div>
-                
+
+                {/* Step-Specific Content */}
+                <div className="step-content">
+                  {currentStep === 0 && <AddressForm />}
+                  {currentStep === 1 && <PaymentForm />}
+                  {currentStep === 2 && <ConfirmOrder />}
+                </div>
               </div>
               <div className="col-lg-4">
-                <CartItem items={basket?.items}/>
+                <CartItem
+                  currentStep={currentStep}
+                  handleNextStep={handleNextStep}
+                  handlePreviousStep={handlePreviousStep}
+                  items={basket?.items}
+                />
               </div>
             </div>
           </div>

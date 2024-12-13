@@ -1,96 +1,82 @@
-
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { BasketItem } from '../types/cartTypes'
-import productService from '../../../services/productService'
-import { Avatar, Box, Button, Container, Grid, IconButton, Typography } from '@mui/material'
-import { Remove, Add } from '@mui/icons-material'
+import { BasketItem } from "../types/cartTypes";
+import productService from "../../../services/productService";
+import OrderSummary from "./OrderSummary";
 
 interface BasketItemProps {
-  items: BasketItem[] | undefined
+  items: BasketItem[] | undefined;
+  currentStep: number;
+  handleNextStep: () => void;
+  handlePreviousStep: () => void;
 }
 
-export default function CartItem({items}: BasketItemProps) {
+export default function CartItem({
+  items,
+  currentStep,
+  handleNextStep,
+  handlePreviousStep,
+}: BasketItemProps) {
   return (
-    <Container className="order-summery-section sticky-top">
-      {items?.map((item, index) => (
-        <Box key={index} className="checkout-detail" sx={{ mb: 4 }}>
-          <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'text.primary', mb: 2 }}>
-            Cart Items
-          </Typography>
-          <Box className="order-summery-section mt-0" sx={{ padding: 0 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Box className="horizontal-product-box" sx={{ display: 'flex', alignItems: 'center', border: 1, borderRadius: 2, p: 2, boxShadow: 1 }}>
-                  <Avatar
-                    src={productService.getProductImage(item.productImage)}
-                    alt={item.productName}
-                    style={{ height: '50px', width: '100px', borderRadius: 2 }}
-                  />
-                  <Box sx={{ flexGrow: 1, ml: 2 }}>
-                    <Typography variant="subtitle1" sx={{ fontWeight: 'bold', mb: 1 }}>
-                      {item.productName}
-                    </Typography>
-                    <Typography variant="body1" color="primary" sx={{ mb: 1 }}>
-                      ${item.unitPrice}
-                    </Typography>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-                      <Typography variant="body2">Serve 1</Typography>
-                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                        <IconButton>
-                          <Remove />
-                        </IconButton>
-                        <input type="number" style={{ width: '50px', textAlign: 'center', border: '1px solid #ccc', borderRadius: 4 }} />
-                        <IconButton>
-                          <Add />
-                        </IconButton>
-                      </Box>
-                    </Box>
-                  </Box>
-                </Box>
-              </Grid>
-            </Grid>
-            <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'text.primary', mt: 4 }}>
-              Bill Details
-            </Typography>
-            <Box sx={{ mt: 2 }}>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
-                <Typography variant="body1" color="text.secondary">Sub Total</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>${110}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
-                <Typography variant="body1" color="text.secondary">Delivery Charge (2 kms)</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 'bold', color: 'green' }}>Free</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 1 }}>
-                <Typography variant="body1" color="text.secondary">Discount (10%)</Typography>
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>${11}</Typography>
-              </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', py: 2, borderTop: 1, borderColor: 'divider' }}>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'text.primary' }}>To Pay</Typography>
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main' }}>${99}</Typography>
-              </Box>
-            </Box>
-          </Box>
-          <Button
-            variant="contained"
-            color="primary"
-            fullWidth
-            sx={{ mt: 2 }}
-            component={Link}
-            to="/checkout"
+    <div className="order-summery-section sticky-top">
+      <div className="checkout-detail">
+        <h3 className="fw-semibold dark-text checkout-title">Cart Items</h3>
+        <div className="order-summery-section mt-0">
+          {items?.map((item) => (
+            <div className="checkout-detail p-0">
+              <img
+                style={{ width: "50%" }}
+                className="img-fluid"
+                src={productService.getProductImage(item.productImage)}
+              />
+              <ul>
+                <li>
+                  <div className="horizontal-product-box">
+                    <div className="product-content">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <h5>{item.productName}</h5>
+                        <h6 className="product-price">${item.price}</h6>
+                      </div>
+                      <h6 className="ingredients-text"></h6>
+                      <div className="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
+                        <h6 className="place">Serve 1</h6>
+                        <div className="plus-minus">
+                          <i className="ri-subtract-line sub"></i>
+                          <input type="number" />
+                          <i className="ri-add-line add"></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <OrderSummary />
+            </div>
+          ))}
+        </div>
+
+        {currentStep > 0 && (
+          <a
+            className="btn theme-btn restaurant-btn w-50 rounded-2"
+            onClick={handlePreviousStep}
           >
-            Proceed to payment
-          </Button>
-          <img
-            src="../assets/images/svg/dots-design.svg"
-            alt="dots"
-            className="dots-design"
-            style={{ marginTop: '20px', width: '100%' }}
-          />
-        </Box>
-      ))}
-    </Container>
-      
-  )
+            Back
+          </a>
+        )}
+        {currentStep < 2 && (
+          <a
+          className="btn theme-btn restaurant-btn w-100 rounded-2"
+          onClick={handleNextStep}
+        >
+          CheckOut {currentStep === 0 ? "Payment" : "Confirmation"}
+        </a>
+        )}
+        
+
+        <img
+          src="assets/images/svg/dots-design.svg"
+          alt="dots"
+          className="dots-design"
+        />
+      </div>
+    </div>
+  );
 }

@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { Restaurant } from "../../../models/Restaurant";
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
 import restaurantService from "../../../services/restaurantService";
-import { Product } from '../../../models/Product';
-import { Avatar, Box, CardActionArea, CardHeader, Container, IconButton, Rating } from "@mui/material";
+import { Product } from "../../../models/Product";
+import {
+  Avatar,
+  Box,
+  CardActionArea,
+  CardHeader,
+  Container,
+  IconButton,
+  Rating,
+} from "@mui/material";
 import { red } from "@mui/material/colors";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { t } from "i18next";
+import productService from "../../../services/productService";
 
 export default function Restaurants() {
   const [restaurants, setRestaurant] = useState<Restaurant[]>([]);
-  const [image,setImage] = useState<string>()
 
   useEffect(() => {
     const fetchRestaurant = async () => {
@@ -32,77 +41,73 @@ export default function Restaurants() {
 
   return (
     <>
-          <Box
-            sx={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fill, minmax(345px, 1fr))',
-              gap: 3,
-            }}
-          >
-            {restaurants.map((restaurant,index) => (
-              <Card
-                key={index}
-                sx={{
-                  maxWidth: 345,
-                  position: 'relative',
-                  boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.1)',
-                  transition: 'all 0.3s ease-in-out',
-                  '&:hover': {
-                    transform: 'scale(1.05)',
-                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.2)',
-                    cursor: 'pointer',
-                  },
-                }}
-              >
-                <CardActionArea 
-                    component={Link}
-                    to={`/restaurants/${restaurant.id}`}>
-                  <CardMedia
-                    component="img"
-                    height="140"
-                    image={restaurantService.getRestaurantImage(
-                      restaurant.products[0].foodImageUrls[0]
-                    )}
-                    alt={restaurant.name}
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      {restaurant.name}
-                    </Typography>
-                    <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1 }}>
-                      Lizards are a widespread group of squamate reptiles, with over 6,000
-                      species, ranging across all continents except Antarctica
-                    </Typography>
-                    {/* Rating */}
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Rating name={`rating-${restaurant.id}`} value={4} readOnly precision={0.5} />
-                      <Typography variant="body2" sx={{ ml: 1 }}>
-                        4.0
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </CardActionArea>
-                {/* Add to Cart and Details */}
-                <Box
-                  sx={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    px: 2,
-                    py: 1,
-                  }}
-                >
-                  <Button variant="contained" size="small" startIcon={<FontAwesomeIcon icon={faInfo} />}>
-                    Details
-                  </Button>
-                  <IconButton color="primary">
-                    <FontAwesomeIcon icon={faShoppingCart} />
-                  </IconButton>
-                </Box>
-              </Card>
-            ))}
-          </Box>
-      
+      <section className="restaurant-list section-b-space ratio3_2">
+        <div className="container">
+          <div className="title restaurant-title w-border pb-0">
+            <h2>{t("Featured Restaurants")}</h2>
+            <div className="loader-line"></div>
+          </div>
+          <div id="TabContent" className="tab-content restaurant-content">
+            <div id="delivery-tab" className="tab-pane fade show active">
+              <div className="row g-lg-4 g-3">
+                {restaurants.map((item) => (
+                  <div className="col-xl-3 col-lg-4 col-sm-6">
+                    <div className="vertical-product-box">
+                      <div className="vertical-product-box-img">
+                        <Link
+                          className="bg-size"
+                          to={`/restaurants/${item.id}`}
+                          style={{
+                            backgroundImage: `url(${productService.getProductImage(item.products[0].foodImageUrls[0])})`,
+                          }}
+                        >
+                          <img
+                            alt="vp1"
+                            className="product-img-top w-100 bg-img"
+                            style={{ display: "none" }}
+                            src={productService.getProductImage(
+                              item.products[0].foodImageUrls[0]
+                            )}
+                          />
+                        </Link>
+                      </div>
+                      <div className="vertical-product-body">
+                        <div className="d-flex align-items-center justify-content-between mt-sm-3 mt-2">
+                          <a href="/zomo/order/menu-listing/take-it-cheesy">
+                            <h4 className="vertical-product-title">
+                              {item.name}
+                            </h4>
+                          </a>
+                          <h6 className="rating-star">
+                            <span className="star">
+                              <i className="ri-star-s-fill"></i>
+                            </span>
+                            {item.rating}
+                          </h6>
+                        </div>
+                        <h5 className="product-items">{item.bestSeller}</h5>
+                        <div className="location-distance d-flex align-items-center justify-content-between pt-sm-3 pt-2">
+                          <h5 className="place">{item.location}</h5>
+                          <ul className="distance">
+                            <li>
+                              <i className="ri-map-pin-fill icon"></i>
+                              {item.distance} km
+                            </li>
+                            <li>
+                              <i className="ri-time-fill icon"></i>
+                              {item.deliveryTime} min
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

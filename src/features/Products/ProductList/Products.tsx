@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Product } from "../../../models/Product";
 import ProductService from "../../../services/productService";
 import "./Products.css";
+import { useCart } from "../../Cart/context/CartContext";
+import { toast } from "react-toastify";
 interface ProductProps {
   items: Product[];
 }
 
 export default function Products({ items }: ProductProps) {
-  
   const groupProductsByCategory = (
     products: Product[]
   ): Record<string, Product[]> => {
@@ -23,9 +24,10 @@ export default function Products({ items }: ProductProps) {
       {}
     );
   };
-  //Agent.Catalog.list().then(products => setProducts(products))
-  // Group products by category
   const categorizedProducts = groupProductsByCategory(items);
+
+  const { addToCart } = useCart();
+
   return (
     <>
       <div className="row g-lg-3 g-2">
@@ -130,9 +132,23 @@ export default function Products({ items }: ProductProps) {
                               <h2 className="theme-color fw-semibold">
                                 ${item.price}
                               </h2>
-                              <a className="btn theme-outline add-btn mt-0">
-                                +Add
-                              </a>
+                              <button
+                                onClick={() => {
+                                  addToCart(item.id, 1);
+                                  toast.success(`${item.name} added to cart!`, {
+                                    position: "top-right",
+                                    autoClose: 3000,
+                                    hideProgressBar: true,
+                                    closeOnClick: true,
+                                    pauseOnHover: true,
+                                    draggable: true,
+                                    progress: undefined,
+                                  });
+                                }}
+                                className="btn theme-outline add-btn mt-0"
+                              >
+                                Add
+                              </button>
                             </div>
                           </div>
                         </div>

@@ -6,6 +6,7 @@ import "./RestaurantDetail.css";
 import Products from "../../Products/ProductList/Products";
 import { Product } from "../../../models/Product";
 import CartItem from "../../Cart/components/CartItem";
+import { useCart } from "../../Cart/context/CartContext";
 
 
 export default function RestaurantDetail() {
@@ -13,6 +14,7 @@ export default function RestaurantDetail() {
   const [restaurant, setRestaurant] = useState<Restaurant | any>();
   const [products, setProducts] = useState<Product[] | any>();
 
+  const { addToCart } = useCart()
   
   useEffect(() => {
     const getRestaurant = async () => {
@@ -170,7 +172,7 @@ export default function RestaurantDetail() {
               </div>
 
               <div className="col-lg-3 product-details-content">
-                <CartItem items={[]} />
+                  
               </div>
             </div>
           </div>
