@@ -10,7 +10,7 @@ interface CartContextType {
     addToCart: (productId: number, quantity: number) => Promise<void>;
     totalCount: number
     //removeFromCart: (id: number) => void;
-    //updateQuantity: (id: number,quantity: number) => void;
+    updateQuantity: (productId: number,quantity: number) => void;
     //clearCart: () => void; 
 }
 
@@ -30,10 +30,15 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
         await cartApi.addToCart(productId,quantity)
         if(basket) loadBasket(basket.user.id)
     }
+    const updateQuantity = async (productId: number, quantity: number) => {
+        const updatedBasket = await cartApi.updateCart(productId,quantity);
+        setBasket(updatedBasket)
+        if(basket) loadBasket(basket.user.id);
+    }
 
 
     return (   
-        <CartContext.Provider value={{basket,addToCart,loadBasket,totalCount}}>
+        <CartContext.Provider value={{basket,addToCart,loadBasket,totalCount,updateQuantity}}>
             {children}
         </CartContext.Provider>
     )

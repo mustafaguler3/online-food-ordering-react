@@ -34,6 +34,8 @@ export default function CartPage() {
     }
   };
 
+  
+
   return (
     <div className="bg-color">
       <section className="page-head-section">

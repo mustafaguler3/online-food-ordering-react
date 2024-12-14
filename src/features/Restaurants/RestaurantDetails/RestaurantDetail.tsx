@@ -14,7 +14,7 @@ export default function RestaurantDetail() {
   const [restaurant, setRestaurant] = useState<Restaurant | any>();
   const [products, setProducts] = useState<Product[] | any>();
 
-  const { addToCart } = useCart()
+  const { basket,addToCart,updateQuantity } = useCart()
   
   useEffect(() => {
     const getRestaurant = async () => {
@@ -172,7 +172,7 @@ export default function RestaurantDetail() {
               </div>
 
               <div className="col-lg-3 product-details-content">
-                  
+                  <CartItem items={basket?.items}/>
               </div>
             </div>
           </div>

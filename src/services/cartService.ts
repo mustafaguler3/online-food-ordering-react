@@ -38,6 +38,22 @@ class CartService {
           }
       }
     }
+    async updateCart(productId: number,quantity: number) {
+      try {
+        await cartApi.updateCart(productId,quantity);
+        console.log("Product updated successfully.");
+      }catch (error) {
+        console.error("Error fetching basket:", error);
+    
+          if (axios.isAxiosError(error)) {
+            if (error.response && error.response.status === 404) {
+              throw new Error("Basket not found for the user.");
+            } else if (error.response) {
+              throw new Error(`Failed to fetch basket. Status: ${error.response.status}`);
+            }
+          }
+      }
+    }
 }
 
 export default new CartService();

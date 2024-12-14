@@ -85,7 +85,7 @@ export function Navbar() {
                     <div className="price-box">
                       <h5>Total :</h5>
                       <h4 className="theme-color fw-semibold">
-                        ${basket?.totalPrice.toFixed(2)}
+                        ${basket?.grandTotal}
                       </h4>
                     </div>
                     <div className="button-group">
@@ -126,7 +126,7 @@ export function Navbar() {
                 />
                 <div>
                   <h6 className="fw-normal">
-                    {t("Hi")}, {user.firstName}
+                    {t("Hi")}, {user.firstName.toUpperCase()} {user.lastName.toUpperCase()}
                   </h6>
                   <h5 className="fw-medium">{t("My Account")}</h5>
                 </div>

@@ -1,9 +1,7 @@
-import { Basket } from "../features/Cart/types/cartTypes";
+import { Basket } from '../features/Cart/types/cartTypes';
 import axiosClient from "./axiosClient";
 
-
 const cartApi = {
-
     getBasket: (userId: any) : Promise<Basket> => {
         return axiosClient.get(`/basket?userId=${userId}`)
         .then(res => res.data)
@@ -18,8 +16,13 @@ const cartApi = {
         .catch(error => {
             throw error;
         })
+    },
+    updateCart: (productId: number, quantity: number) : Promise<Basket> => {
+        return axiosClient.post(`/basket/update?productId=${productId}&quantity=${quantity}`)
+        .then(res => res.data)
+        .catch(error => {
+            throw error
+        })
     }
-
 }
-
 export default cartApi;
