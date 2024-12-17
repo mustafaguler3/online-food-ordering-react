@@ -4,9 +4,9 @@ import "./Navbar.css";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import AuthService from "../services/authService";
-import { useUser } from "../context/UserContext";
 import { useCart } from "../features/Cart/context/CartContext";
 import productService from "../services/productService";
+import { useUser } from "../features/User/context/UserContext";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();

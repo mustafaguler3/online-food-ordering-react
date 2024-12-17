@@ -1,0 +1,48 @@
+/* Transparent modal backdrop */
+.modal-backdrop.show {
+  opacity: 0.5;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.address-section .address-box .address-title h6 {
+  font-weight: 500;
+  background: linear-gradient(to right, rgba(var(--theme-color), 1), rgba(var(--theme-color2), 1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 100%;
+}
+/* Modal açıkken body'nin kaymasını engelle */
+body.modal-open {
+  overflow: hidden;
+  padding-right: 0 !important; /* Scrollbar alanını kaldırmak için */
+}
+
+.address-details-modal .modal-dialog .modal-content .modal-header {
+  border-bottom: 1px solid rgba(var(--dashed-line), 1);
+}
+.modal-content {
+  position: relative;
+  display: flex
+;
+  flex-direction: column;
+  width: 100%;
+  color: var(--bs-modal-color);
+  pointer-events: auto;
+  background-color: var(--bs-modal-bg);
+  background-clip: padding-box;
+  border: var(--bs-modal-border-width) solid var(--bs-modal-border-color);
+  border-radius: var(--bs-modal-border-radius);
+  outline: 0;
+}
+.modal.show .modal-dialog {
+  transform: none;
+}
+.modal-backdrop.show {
+  opacity: var(--bs-backdrop-opacity);
+}
+.modal-dialog {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0 auto;
+}

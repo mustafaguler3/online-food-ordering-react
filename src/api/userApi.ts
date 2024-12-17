@@ -1,15 +1,14 @@
+import { Address } from "../models/Address";
 import { User } from "../models/User";
 import axiosClient from "./axiosClient";
-import { Address } from "./types/userTypes";
 
 const userApi = {
-    getUserInfo: () : Promise<User> => {
-        return axiosClient.get("/auth/user")
+    getUserProfile: () : Promise<User> => {
+        return axiosClient.get("/user/account/profile")
         .then(res => res.data)
         .catch(error => {
             if (error.response) {
-                // Backend'den gelen yanıtı hata olarak atıyoruz
-                throw error.response; // Hata yanıtının tamamını atıyoruz, içindeki data'yı kontrol edebilirsiniz
+                throw error.response; 
               } else {
                 throw new Error('An unexpected error occurred');
               }
@@ -25,6 +24,14 @@ const userApi = {
         }else {
           throw new Error('An unexpected error occurred');
         }
+      })
+    },
+    getSavedAddress: () : Promise<Address[]> => {
+      return axiosClient.get(`/user/account/address`)
+      .then(res => res.data)
+      .catch(error => {
+        console.log("Error ",error)
+        throw error;
       })
     }
 }

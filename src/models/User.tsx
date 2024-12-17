@@ -1,3 +1,6 @@
+import { Address } from "./Address"
+
+
 export interface User {
     id: number
     username:string
@@ -8,4 +11,5 @@ export interface User {
     firstName:string
     lastName:string
     isEnabled:boolean
+    addresses: Address[]
 }

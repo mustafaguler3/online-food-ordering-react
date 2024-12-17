@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useUser } from "../../../context/UserContext";
 import { useCart } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
@@ -8,6 +7,7 @@ import AddressForm from "../components/AddressForm";
 import PaymentForm from "../components/PaymentForm";
 import ConfirmOrder from "../components/ConfirmOrder";
 import "./CartPage.css";
+import { useUser } from "../../User/context/UserContext";
 
 export default function CartPage() {
   const { basket, loadBasket, addToCart } = useCart();

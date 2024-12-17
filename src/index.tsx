@@ -6,9 +6,9 @@ import './i18n/i18n';
 import "./App.css"
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router/Routes';
-import { UserProvider } from './context/UserContext';
 import { CartProvider } from './features/Cart/context/CartContext';
 import CartPage from './features/Cart/pages/CartPage';
+import { UserProvider } from './features/User/context/UserContext';
 
 
 const root = ReactDOM.createRoot(
