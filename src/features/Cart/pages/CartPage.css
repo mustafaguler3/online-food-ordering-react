@@ -90,6 +90,22 @@
     height: 1px;
     border: 1px dashed rgba(var(--dashed-line), 1);
 }
+.product-image-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 5px;
+  background-color: #f9f9f9;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-image-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.product-details input {
+  border: none;
+  outline: none;
+}
 
 .process-section {
     padding: calc(10px + 15*(100vw - 320px) / 1600) calc(10px + .0125*(100vw - 320px));

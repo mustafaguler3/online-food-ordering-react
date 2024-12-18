@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useReducer, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useReducer, useState } from "react";
 import { Product } from "../../../models/Product";
 import { Basket } from "../types/cartTypes";
 import cartApi from "../../../api/cartApi";
@@ -6,7 +6,7 @@ import cartApi from "../../../api/cartApi";
 
 interface CartContextType {
     basket: Basket | null;
-    loadBasket: (userId: number) => Promise<void>
+    loadBasket: () => Promise<void>
     addToCart: (productId: number, quantity: number) => Promise<void>;
     totalCount: number
     //removeFromCart: (id: number) => void;
@@ -18,22 +18,25 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({children}: {children: ReactNode}) => {
     const [basket, setBasket] = useState<Basket | null>(null);
-    const [totalCount, setTotalCount] = useState<number>(0)
+    //const [totalCount, setTotalCount] = useState<number>(0)
 
-    const loadBasket = async (userId: number) => {
-        const data = await cartApi.getBasket(userId);
+    const totalCount = basket ? basket.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+
+
+    const loadBasket = async () => {
+        const data = await cartApi.getBasket();
         setBasket(data);
-        setTotalCount(data.items.length)
+        //setTotalCount(data.items.length)
     }
 
     const addToCart = async (productId: number,quantity: number) => {
         await cartApi.addToCart(productId,quantity)
-        if(basket) loadBasket(basket.user.id)
+        if(basket) loadBasket()
     }
     const updateQuantity = async (productId: number, quantity: number) => {
         const updatedBasket = await cartApi.updateCart(productId,quantity);
         setBasket(updatedBasket)
-        if(basket) loadBasket(basket.user.id);
+        if(basket) loadBasket();
     }
 
 

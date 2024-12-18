@@ -11,5 +11,5 @@ export interface Address {
     zipCode: string;
     phone: string;
     type: any
-    userId: number
+    userId?: number
 }

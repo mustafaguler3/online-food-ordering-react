@@ -10,14 +10,15 @@ import "./CartPage.css";
 import { useUser } from "../../User/context/UserContext";
 
 export default function CartPage() {
-  const { basket, loadBasket, addToCart } = useCart();
+  const { basket, loadBasket } = useCart();
   const { user } = useUser();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user?.id) {
-      loadBasket(user.id);
+      loadBasket();
     }
-  }, [user]);
+  }, []);
 
   const [currentStep, setCurrentStep] = useState(0);
   const steps = ["Address", "Payment", "Confirm Order"];
@@ -33,8 +34,6 @@ export default function CartPage() {
       setCurrentStep((prev) => prev - 1);
     }
   };
-
-  
 
   return (
     <div className="bg-color">
@@ -66,17 +65,28 @@ export default function CartPage() {
         <div className="container">
           <div className="layout-sec">
             <div className="row g-lg-4 g-4">
+              {/* Ana Adımlar Bölümü */}
               <div className="col-lg-8">
                 {/* Process Section */}
-                <div className="process-section">
-                  <ul className="process-list">
+                <div className="process-section mb-4">
+                  <ul className="process-list d-flex align-items-center justify-content-between position-relative">
                     {steps.map((step, index) => (
-                      <>
-                        <li key={index}>
+                      <React.Fragment key={index}>
+                        <li className="text-center flex-grow-1 position-relative">
+                          {/* Process Icon */}
                           <div
-                            className={`process-icon ${
-                              currentStep === index ? "active" : ""
-                            } ${currentStep > index ? "completed" : ""}`}
+                            className={`process-icon mx-auto mb-2 d-flex justify-content-center align-items-center rounded-circle shadow ${
+                              currentStep === index
+                                ? "active shadow-lg bg-warning"
+                                : currentStep > index
+                                ? "completed bg-orange text-white"
+                                : "bg-light"
+                            }`}
+                            style={{
+                              width: "60px",
+                              height: "60px",
+                              transition: "all 0.3s ease-in-out",
+                            }}
                           >
                             <img
                               alt={step.toLowerCase()}
@@ -96,46 +106,80 @@ export default function CartPage() {
                               }.svg`}
                             />
                           </div>
+
+                          {/* Step Label */}
                           <h6
-                            className={`${
+                            className={`mt-1 fw-semibold ${
                               currentStep === index
                                 ? "text-warning"
                                 : currentStep > index
                                 ? "text-orange"
-                                : ""
+                                : "text-secondary"
                             }`}
                           >
                             {step}
                           </h6>
-                        </li>
 
-                        {/* Progress Line */}
-                        {index < steps.length - 1 && (
-                          <div
-                            className={`progress-line ${
-                              currentStep > index ? "completed-line" : ""
-                            }`}
-                          ></div>
-                        )}
-                      </>
+                          {/* Progress Line */}
+                          {index < steps.length - 1 && (
+                            <div
+                              className={`progress-line position-absolute ${
+                                currentStep > index ? "bg-orange" : "bg-light"
+                              }`}
+                              style={{
+                                width: "100%",
+                                height: "4px",
+                                top: "30px",
+                                left: "50%",
+                                zIndex: "-1",
+                                transform: "translateY(50%)",
+                              }}
+                            ></div>
+                          )}
+                        </li>
+                      </React.Fragment>
                     ))}
                   </ul>
                 </div>
 
                 {/* Step-Specific Content */}
-                <div className="step-content">
+                <div className="step-content p-4 rounded shadow-sm bg-white">
                   {currentStep === 0 && <AddressForm />}
                   {currentStep === 1 && <PaymentForm />}
                   {currentStep === 2 && <ConfirmOrder />}
                 </div>
+
+                {/* Navigation Buttons */}
+                <div className="d-flex justify-content-between mt-4">
+                  {currentStep > 0 && (
+                    <button
+                      className="btn btn-outline-warning rounded-pill px-4 py-2 shadow-sm"
+                      onClick={handlePreviousStep}
+                    >
+                      Back
+                    </button>
+                  )}
+                  {currentStep < 2 && (
+                    <button
+                      className="btn btn-warning text-white rounded-pill px-4 py-2 shadow-lg"
+                      onClick={handleNextStep}
+                    >
+                      {currentStep === 0
+                        ? "Proceed to Payment"
+                        : "Confirm Order"}
+                    </button>
+                  )}
+                </div>
               </div>
+
+              {/* Cart Bölümü */}
               <div className="col-lg-4">
-                <CartItem
-                  currentStep={currentStep}
-                  handleNextStep={handleNextStep}
-                  handlePreviousStep={handlePreviousStep}
-                  items={basket?.items}
-                />
+                <div className="cart-section bg-light rounded shadow-sm p-4">
+                  <h5 className="fw-bold mb-4 text-secondary">Your Cart</h5>
+                  <CartItem
+                    items={basket?.items}
+                  />
+                </div>
               </div>
             </div>
           </div>

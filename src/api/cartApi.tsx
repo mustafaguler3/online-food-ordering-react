@@ -2,8 +2,8 @@ import { Basket } from '../features/Cart/types/cartTypes';
 import axiosClient from "./axiosClient";
 
 const cartApi = {
-    getBasket: (userId: any) : Promise<Basket> => {
-        return axiosClient.get(`/basket?userId=${userId}`)
+    getBasket: () : Promise<Basket> => {
+        return axiosClient.get(`/basket`)
         .then(res => res.data)
         .catch(error => {
             console.log("Basket Error ",error.message)

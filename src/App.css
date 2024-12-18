@@ -24414,10 +24414,10 @@ className .contact-form .buttons {
   padding-top: calc(10px + 0.00625 * (100vw - 320px));
   border-top: 1px dashed rgba(var(--dashed-line), 1);
 }
-className .address-details-modal .modal-dialog .modal-content .modal-header {
+ .address-details-modal .modal-dialog .modal-content .modal-header {
   border-bottom: 1px solid rgba(var(--dashed-line), 1);
 }
-className
+
   .address-details-modal
   .modal-dialog
   .modal-content
@@ -31633,23 +31633,7 @@ className .account-part.confirm-part h3 {
   margin-top: calc(20px + 0.0125 * (100vw - 320px));
   color: rgba(var(--dark-text), 1);
 }
-className .address-section {
-  margin-top: calc(20px + 0.0125 * (100vw - 320px));
-  padding: calc(20px + 0.0125 * (100vw - 320px));
-  background-color: rgba(var(--white), 1);
-}
-className .address-section .address-box {
-  border: 1px solid rgba(var(--dashed-line), 1);
-  border-radius: 6px;
-  height: 100%;
-}
-className .address-section .address-box.new-address-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  padding: 15px;
-}
+
 @media (max-width: 767px) {
   className .address-section .address-box.new-address-box {
     padding: 0;

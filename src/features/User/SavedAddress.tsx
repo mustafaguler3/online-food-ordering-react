@@ -17,23 +17,16 @@ export default function SavedAddress() {
     country: "",
     phone: "",
     zipCode: "",
-    type: "Home",
-    userId: user.id,
-    addressLine2:"",
+    type: "Work",
+    addressLine2: "",
   });
 
   useEffect(() => {
-    
-    // Modal açıkken body'ye "modal-open" sınıfını ekle
     if (isModalOpen) {
       document.body.classList.add("modal-open");
     } else {
-      // Modal kapalıysa sınıfı kaldır
       document.body.classList.remove("modal-open");
     }
-    
-
-    // Cleanup: Component kaldırıldığında sınıfı temizle
     return () => document.body.classList.remove("modal-open");
   }, [isModalOpen]);
 
@@ -44,36 +37,34 @@ export default function SavedAddress() {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = async () => {
     try {
       const response = await userService.addAddress(formData);
       console.log("Address Saved:", response);
       closeModal();
-      toast.success("Address saved successfully")
+      toast.success("Address saved successfully");
     } catch (error) {
       console.error("Failed to save address:", error);
-      toast.error("an error occurred during adding address")
+      toast.error("an error occurred during adding address");
     }
   };
+
   return (
     <>
       <div className="address-section bg-color h-100 mt-0">
         <div className="title">
           <h3>Saved Address</h3>
         </div>
-        <div className="row g-3">
-          <div className="col-md-6">
-            {user?.addresses.map((address, index) => (
-              <div key={index} className="address-box white-bg">
+        <div className="row g-3 ">
+        {user?.addresses.map((address, index) => (
+          <div key={index} className="col-md-6 ">
+            
+              <div  className="address-box white-bg">
                 <div className="address-title d-flex justify-content-between">
-                <div
-              className="d-flex align-items-center gap-2"
-            >
-              <i className="icon ri-home-4-fill"></i>
-              <h6>{address.type}</h6>
-            </div>
-
+                  <div className="d-flex align-items-center gap-2">
+                    <i className="icon ri-home-4-fill"></i>
+                    <h6>{address.type}</h6>
+                  </div>
 
                   <button
                     className="btn btn-sm btn-link edit-btn"
@@ -87,13 +78,12 @@ export default function SavedAddress() {
                   <h6 className="phone-number">{address.phone}</h6>
                 </div>
               </div>
-            ))}
-          </div>
-          <div  className="col-md-6">
-            <div
-              className="address-box white-bg new-address-box white-bg"
-            >
-              <a onClick={() => openModal()}
+            
+          </div>))}
+          <div className="col-md-6">
+            <div className="address-box white-bg w-100 new-address-box white-bg">
+              <a
+                onClick={() => openModal()}
                 className="btn new-address-btn theme-outline rounded-2 mt-0"
               >
                 Add New Address
@@ -136,6 +126,7 @@ export default function SavedAddress() {
                         <input
                           type="text"
                           id="inputFirstname"
+                          name="firstName"
                           value={formData.firstName}
                           onChange={handleInputChange}
                           placeholder="Enter your fist name"
@@ -147,6 +138,7 @@ export default function SavedAddress() {
                         <input
                           type="text"
                           id="inputLastname"
+                          name="lastName"
                           value={formData.lastName}
                           onChange={handleInputChange}
                           placeholder="Enter your last name"
@@ -158,6 +150,7 @@ export default function SavedAddress() {
                         <input
                           type="text"
                           id="inputAddress"
+                          name="addressLine1"
                           value={formData.addressLine1}
                           onChange={handleInputChange}
                           placeholder="Enter your address"
@@ -169,6 +162,7 @@ export default function SavedAddress() {
                         <input
                           type="text"
                           id="inputCity"
+                          name="city"
                           value={formData.city}
                           onChange={handleInputChange}
                           placeholder="Enter your city"
@@ -180,6 +174,7 @@ export default function SavedAddress() {
                         <input
                           type="text"
                           id="inputCountry"
+                          name="country"
                           value={formData.country}
                           onChange={handleInputChange}
                           placeholder="Enter your country"
@@ -191,6 +186,7 @@ export default function SavedAddress() {
                         <input
                           type="tel"
                           id="inputPhone"
+                          name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
                           placeholder="Enter your number"
@@ -202,6 +198,7 @@ export default function SavedAddress() {
                         <input
                           type="text"
                           id="inputZip"
+                          name="zipCode"
                           value={formData.zipCode}
                           onChange={handleInputChange}
                           placeholder="Enter your zip"
@@ -218,7 +215,11 @@ export default function SavedAddress() {
                     >
                       CANCEL
                     </a>
-                    <a onClick={handleSubmit} href="javascript:void(0)" className="btn theme-btn mt-0">
+                    <a
+                      onClick={handleSubmit}
+                      href="javascript:void(0)"
+                      className="btn theme-btn mt-0"
+                    >
                       SUBMIT
                     </a>
                   </div>

@@ -8,9 +8,7 @@ import { User } from '../models/User';
 const apiUrl = process.env.REACT_APP_API_URL;
 
 class AuthService {
-
   
-
   getProfileImage(image: string) {
     return `${apiUrl}/auth/uploads/users/${image}`;
   }
@@ -46,7 +44,6 @@ class AuthService {
     } catch (error:any) {
       console.error("Login error:", error);
       if (error.response) {
-        // Hata yanıtını kullanarak uygun mesajı ayarlıyoruz
         if (error.response.status === 403) {
           throw new Error(error.response.data || 'Please, firstly verify your email address');
         } else {
@@ -59,8 +56,6 @@ class AuthService {
       }
     }
     }
-      
-  
 
   logout() {
     localStorage.clear();

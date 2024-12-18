@@ -15,17 +15,13 @@ const userApi = {
         })
     },
 
-    addAddress: (address: Address): Promise<void> => {
-      return axiosClient.post(`/user/add-address`,address)
+    addAddress: (address: Address): Promise<Address> => {
+      return axiosClient.post(`/add-address`,address)
       .then(res => res.data)
       .catch(error => {
-        if(error.response) {
-          throw error.response
-        }else {
-          throw new Error('An unexpected error occurred');
-        }
-      })
-    },
+        throw error
+    })
+  },
     getSavedAddress: () : Promise<Address[]> => {
       return axiosClient.get(`/user/account/address`)
       .then(res => res.data)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/authService";
 import { useCart } from "../features/Cart/context/CartContext";
 import productService from "../services/productService";
@@ -13,13 +13,15 @@ export function Navbar() {
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-  const { user, logout } = useUser();
-  const { basket } = useCart();
+  
+  const { user,loadUser, logout } = useUser();
+  const { basket,totalCount,loadBasket } = useCart();
 
-  const totalCount:any = basket?.items.reduce(
-    (sum, item) => sum + item.quantity,
-    0
-  );
+  useEffect(() => {
+    if(user) {
+      loadBasket()
+    }
+  },[])
 
   return (
     <header>
@@ -50,7 +52,7 @@ export function Navbar() {
             <div className="dropdown-button">
                 <>
                   <div className="cart-button">
-                    <span>{totalCount > 0 ? totalCount : 0}</span>
+                    <span>{totalCount != null ? totalCount : 0}</span>
                     <i className="ri-shopping-cart-line text-white cart-bag"></i>
                   </div>
                   <div className="onhover-box">

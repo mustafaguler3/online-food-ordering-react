@@ -2,8 +2,10 @@ import { BasketItem } from "../types/cartTypes";
 import productService from "../../../services/productService";
 import OrderSummary from "./OrderSummary";
 import cartService from "../../../services/cartService";
-import "./CartItem.css"
-import { useState } from "react";
+import "./CartItem.css";
+import { useEffect, useState } from "react";
+import { useCart } from "../context/CartContext";
+import { useUser } from "../../User/context/UserContext";
 
 interface BasketItemProps {
   items: BasketItem[] | undefined;
@@ -13,13 +15,10 @@ interface BasketItemProps {
 }
 export default function CartItem({
   items: initialItems,
-  currentStep,
-  handleNextStep,
-  handlePreviousStep,
 }: BasketItemProps) {
-  
-  
   const [items, setItems] = useState<BasketItem[] | undefined>(initialItems);
+  const { basket,loadBasket } = useCart();
+  const { user } = useUser();
 
   const incrementQuantity = async (productId: number, quantity: number) => {
     setItems((prevItems) =>
@@ -29,15 +28,14 @@ export default function CartItem({
           : item
       )
     );
-
     try {
       await cartService.updateCart(productId, getItemQuantity(productId) + 1);
     } catch (error) {
       console.error("Increment failed:", error);
       alert("Failed to update cart!");
     }
-  }
-  const decrementQuantity = async (productId: number,quantity: number) => {
+  };
+  const decrementQuantity = async (productId: number, quantity: number) => {
     const currentQuantity = getItemQuantity(productId);
     if (currentQuantity <= 1) return;
     setItems((prevItems) =>
@@ -53,77 +51,82 @@ export default function CartItem({
       console.error("Decrement failed:", error);
       alert("Failed to update cart!");
     }
-  }
+  };
 
   const getItemQuantity = (productId: number) => {
     return items?.find((item) => item.productId === productId)?.quantity || 0;
   };
-  
+
+  useEffect(()=> {
+    if(basket){
+      loadBasket()
+    }
+  },[])
+
   return (
     <div className="order-summery-section sticky-top">
-      <div className="checkout-detail">
-        <h3 className="fw-semibold dark-text checkout-title">Cart Items</h3>
-        <div className="order-summery-section mt-0">
-          
-            <div className="checkout-detail p-0">
-            {items?.map((item) => (
-              <div>
-                <img
-                style={{ width: "50%" }}
-                className="img-fluid"
-                src={productService.getProductImage(item.productImage)}
-              />
-              <ul>
-                <li>
-                  <div className="horizontal-product-box">
-                    <div className="product-content">
-                      <div className="d-flex align-items-center justify-content-between">
-                        <h5>{item.productName}</h5>
-                        <h6 className="product-price">${item.price}</h6>
-                      </div>
-                      <h6 className="ingredients-text"></h6>
-                      <div className="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
-                        <h6 className="place">Serve 1</h6>
-                        
-                        <div className="plus-minus">
-                          <a onClick={() => decrementQuantity(item.productId,item.quantity)} className="ri-subtract-line sub"></a>
-                          <input type="number" value={item.quantity}/>
-                          <a onClick={() => incrementQuantity(item.productId,item.quantity)} className="ri-add-line add"></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-              </div>
-            ))}
-            </div>
-        
-        </div>
+      <div className="checkout-detail p-3 shadow-sm bg-white rounded">
+        <h3 className="fw-semibold dark-text checkout-title mb-3">
+          Cart Items
+        </h3>
 
-        {currentStep! > 0 && (
-          <a
-            className="btn theme-btn restaurant-btn w-50 rounded-2"
-            onClick={handlePreviousStep}
+        {items?.map((item) => (
+          <div
+            key={item.productId}
+            className="d-flex align-items-center gap-3 border-bottom pb-3 mb-3"
           >
-            Back
-          </a>
-        )}
-        {currentStep! < 2 && (
-          <a
-          className="btn theme-btn restaurant-btn w-100 rounded-2"
-          onClick={handleNextStep}
-        >
-          CheckOut {currentStep === 0 ? "Payment" : "Confirmation"}
-        </a>
-        )}
-        
+            {/* Sol Resim */}
+            <div className="product-image-wrapper">
+              <img
+                style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                className="img-fluid rounded"
+                src={productService.getProductImage(item.productImage)}
+                alt={item.productName}
+              />
+            </div>
 
-        <img
-          src="assets/images/svg/dots-design.svg"
-          alt="dots"
-          className="dots-design"
-        />
+            {/* Sağ Bilgiler */}
+            <div className="product-details flex-grow-1">
+              <div className="d-flex justify-content-between align-items-center">
+                <h5 className="fw-bold mb-1">{item.productName}</h5>
+                <h6 className="product-price text-success fw-bold">
+                  ${item.price.toFixed(2)}
+                </h6>
+              </div>
+
+              <div className="d-flex align-items-center justify-content-between mt-2">
+                <h6 className="text-muted">Quantity: {item.quantity}</h6>
+
+                {/* Artırma/Azaltma */}
+                <div className="plus-minus d-flex align-items-center gap-2">
+                  <a
+                    onClick={() =>
+                      decrementQuantity(item.productId, item.quantity)
+                    }
+                    className="btn btn-outline-secondary btn-sm rounded-circle"
+                  >
+                    -
+                  </a>
+                  <input
+                    type="number"
+                    value={item.quantity}
+                    readOnly
+                    className="form-control text-center p-1"
+                    style={{ width: "50px" }}
+                  />
+                  <a
+                    onClick={() =>
+                      incrementQuantity(item.productId, item.quantity)
+                    }
+                    className="btn btn-outline-secondary btn-sm rounded-circle"
+                  >
+                    +
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

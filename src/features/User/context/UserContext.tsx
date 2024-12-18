@@ -4,13 +4,15 @@ import userService from "../../../services/userService";
 import authService from "../../../services/authService";
 import userApi from "../../../api/userApi";
 import { Address } from '../../../models/Address';
+import { useNavigate } from "react-router-dom";
 
 
 interface UserContextProps {
     user: User;
     login: (user: User) => void;
     logout: () => void;
-    address: Address
+    address: Address,
+    loadUser: () => void
 }
 
 const UserContext = createContext<UserContextProps | undefined>(undefined)
@@ -18,16 +20,22 @@ const UserContext = createContext<UserContextProps | undefined>(undefined)
 export const UserProvider: React.FC<React.PropsWithChildren> = ({children}:any) => {
     const [user, setUser] = useState<User | any>(null)
     const [address, setAddress] = useState<Address[] | any>(null)
-
-    const loadUser = async () => {
-        try {
-            const userData = await userService.getUserProfile();
-            setUser(userData)
-            setAddress(userData.addresses)
-        }catch (error) {
-            console.error("Failed to load user: ", error)
-        }
+   
+    // Kullanıcı bilgisini localStorage'dan al ve state'e yükle
+  const loadUser = async () => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      try {
+        const userData = await userService.getUserProfile();
+        setUser(userData);
+        setAddress(userData.addresses);
+      } catch (error) {
+        console.error('Failed to load user:', error);
+        setUser(null);
+        setAddress(null);
+      }
     }
+  };
 
     useEffect(() => {
         loadUser()
@@ -40,11 +48,13 @@ export const UserProvider: React.FC<React.PropsWithChildren> = ({children}:any) 
 
     const logout = () => {
         authService.logout();
-        setUser(null)
+        localStorage.removeItem('accessToken'); // Token'i temizle
+        setUser(null);
+        setAddress(null);
     }
 
     return (
-        <UserContext.Provider value={{address,user,login, logout}}>
+        <UserContext.Provider value={{address,user,login, logout,loadUser}}>
             {children}
         </UserContext.Provider>
     )

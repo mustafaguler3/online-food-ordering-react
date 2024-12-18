@@ -10,12 +10,7 @@ const authApi = {
         return axiosClient.post(`${apiUrl}/auth/login`,data)
         .then(res => res.data)
         .catch(error => {
-            if (error.response) {
-                // Backend'den gelen yanıtı hata olarak atıyoruz
-                throw error.response; // Hata yanıtının tamamını atıyoruz, içindeki data'yı kontrol edebilirsiniz
-              } else {
-                throw new Error('An unexpected error occurred');
-              }
+            throw error;
         })
         
     },

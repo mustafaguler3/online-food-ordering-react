@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/authService';
 import { Link } from 'react-router-dom';
@@ -7,30 +7,28 @@ import { toast } from 'react-toastify';
 import authApi from '../../api/authApi';
 import { User } from '../../models/User';
 import { useForm } from 'react-hook-form';
+import authService from '../../services/authService';
+import { useUser } from '../User/context/UserContext';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate(); 
+  const { loadUser } = useUser();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-
       const user : any = {
         email,
         password,
       };
-
-      const data = await authApi.login(user)
-      localStorage.setItem("accessToken",data.accessToken);
-      localStorage.setItem("refreshToken",data.refreshToken);
+      await authService.login(user)
       setError(null);
       navigate('/');
     } catch (error: any) {
       if (error.message) {
-        // Backend'den gelen hata mesajını göstermek için error.message kullanabilirsiniz
         setError(error.message);
         toast.error(error.message);
       } else {
@@ -39,6 +37,9 @@ const Login: React.FC = () => {
       }
     }
   };
+  useEffect(() => {
+    loadUser()
+  },[loadUser])
 
   return (
     <>
@@ -65,6 +66,7 @@ const Login: React.FC = () => {
           <div className="row">
             <div className="col-xl-5 col-lg-6 col-md-10 m-auto">
               <div className="login-data">
+                
                 <form onSubmit={handleSubmit} className="auth-form">
                   <h2>Sign in</h2>
                   <div className="form-input">
@@ -98,6 +100,9 @@ const Login: React.FC = () => {
                     <span className="fw-semibold"> Terms & Conditions & Privacy Policy</span>
                   </p>
                 </form>
+
+
+                
               </div>
             </div>
           </div>

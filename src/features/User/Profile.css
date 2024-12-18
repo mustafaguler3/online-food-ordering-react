@@ -1,8 +1,69 @@
+@media (min-width: 768px) {
+  [dir=ltr] .col-md-6 {
+    flex: 0 0 auto;
+    width: 50%; /* Ekranı iki sütuna böl */
+  }
+}
+
+@media (min-width: 992px) {
+  [dir=ltr] .col-lg-9 {
+    flex: 0 0 auto;
+    width: 75%; /* Ekranı daha geniş alanda düzenle */
+  }
+}
+
+
+.address-section .address-box.new-address-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px; /* Kart yüksekliğiyle aynı */
+  padding: 15px;
+  border: 2px dashed rgba(var(--theme-color), 1);
+  background-color: #fafafa;
+}
+.address-section .address-box .address-title .icon {
+  font-size: 22px;
+  color: rgba(var(--theme-color), 1);
+}.address-section .address-box .address-title .edit-btn {
+  font-size: 14px;
+  background-color: rgba(var(--theme-color), .12);
+  padding: 2px 14px;
+  border-radius: 20px;
+  color: rgba(var(--theme-color2), 1);
+}.address-section .address-box .address-details .phone-number {
+  margin-top: 12px;
+  color: rgba(var(--content-color), 1);
+}
+.address-section .address-box .address-title {
+  border-bottom: 1px solid rgba(var(--dashed-line), 1);
+  padding: calc(10px + 5*(100vw - 320px) / 1600);
+  display: flex
+;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
 /* Transparent modal backdrop */
 .modal-backdrop.show {
   opacity: 0.5;
   background-color: rgba(0, 0, 0, 0.5);
 }
+.address-section .address-box {
+  border: 1px solid rgba(var(--dashed-line), 1);
+  border-radius: 6px;
+  height: 180px; /* Sabit yükseklik */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* İçerikleri dikey olarak hizalar */
+  padding: 15px;
+  background-color: #fff; /* Arka plan beyaz */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hafif gölge efekti */
+}
+.address-section .address-box .address-details {
+  padding: calc(10px + 5*(100vw - 320px) / 1600);
+}
+
 .address-section .address-box .address-title h6 {
   font-weight: 500;
   background: linear-gradient(to right, rgba(var(--theme-color), 1), rgba(var(--theme-color2), 1));
