@@ -1,24 +1,25 @@
 import { BasketItem } from "../types/cartTypes";
-import productService from "../../../services/productService";
-import OrderSummary from "./OrderSummary";
 import cartService from "../../../services/cartService";
 import "./CartItem.css";
-import { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../../User/context/UserContext";
-
+import { useEffect, useState } from "react";
 interface BasketItemProps {
   items: BasketItem[] | undefined;
-  currentStep?: number | undefined;
-  handleNextStep?: () => void;
-  handlePreviousStep?: () => void;
+  currentStep?: any;
+  onStepChange: (val:any) => void;
 }
-export default function CartItem({
-  items: initialItems,
-}: BasketItemProps) {
+export default function CartItem({ currentStep, onStepChange,items: initialItems }: BasketItemProps) {
   const [items, setItems] = useState<BasketItem[] | undefined>(initialItems);
-  const { basket,loadBasket } = useCart();
+  const { basket, loadBasket } = useCart();
   const { user } = useUser();
+
+
+  useEffect(() => {
+    if(currentStep === "account" && user){
+      onStepChange("address")
+    }
+  },[])
 
   const incrementQuantity = async (productId: number, quantity: number) => {
     setItems((prevItems) =>
@@ -30,6 +31,7 @@ export default function CartItem({
     );
     try {
       await cartService.updateCart(productId, getItemQuantity(productId) + 1);
+      await loadBasket()
     } catch (error) {
       console.error("Increment failed:", error);
       alert("Failed to update cart!");
@@ -47,6 +49,7 @@ export default function CartItem({
     );
     try {
       await cartService.updateCart(productId, currentQuantity - 1);
+      await loadBasket()
     } catch (error) {
       console.error("Decrement failed:", error);
       alert("Failed to update cart!");
@@ -57,76 +60,104 @@ export default function CartItem({
     return items?.find((item) => item.productId === productId)?.quantity || 0;
   };
 
-  useEffect(()=> {
-    if(basket){
-      loadBasket()
+  if (!items || items.length === 0) {
+    return <p>Your cart is empty.</p>;
+  }
+
+  
+
+  const goToNextStep = () => {
+    if (currentStep === "account") {
+      onStepChange("address");
+    } else if (currentStep === "address") {
+      onStepChange("payment");
+    } else if (currentStep === "payment") {
+      onStepChange("confirm");
     }
-  },[])
+  };
+
+  const goToPreviousStep = () => {
+    if (currentStep === "confirm") {
+      onStepChange("payment");
+    } else if (currentStep === "payment") {
+      onStepChange("address");
+    } else if (currentStep === "address") {
+      onStepChange("account");
+    }
+  };
 
   return (
     <div className="order-summery-section sticky-top">
-      <div className="checkout-detail p-3 shadow-sm bg-white rounded">
-        <h3 className="fw-semibold dark-text checkout-title mb-3">
-          Cart Items
-        </h3>
-
-        {items?.map((item) => (
-          <div
-            key={item.productId}
-            className="d-flex align-items-center gap-3 border-bottom pb-3 mb-3"
-          >
-            {/* Sol Resim */}
-            <div className="product-image-wrapper">
-              <img
-                style={{ width: "100px", height: "100px", objectFit: "cover" }}
-                className="img-fluid rounded"
-                src={productService.getProductImage(item.productImage)}
-                alt={item.productName}
-              />
-            </div>
-
-            {/* Sağ Bilgiler */}
-            <div className="product-details flex-grow-1">
-              <div className="d-flex justify-content-between align-items-center">
-                <h5 className="fw-bold mb-1">{item.productName}</h5>
-                <h6 className="product-price text-success fw-bold">
-                  ${item.price.toFixed(2)}
-                </h6>
-              </div>
-
-              <div className="d-flex align-items-center justify-content-between mt-2">
-                <h6 className="text-muted">Quantity: {item.quantity}</h6>
-
-                {/* Artırma/Azaltma */}
-                <div className="plus-minus d-flex align-items-center gap-2">
-                  <a
-                    onClick={() =>
-                      decrementQuantity(item.productId, item.quantity)
-                    }
-                    className="btn btn-outline-secondary btn-sm rounded-circle"
-                  >
-                    -
-                  </a>
-                  <input
-                    type="number"
-                    value={item.quantity}
-                    readOnly
-                    className="form-control text-center p-1"
-                    style={{ width: "50px" }}
-                  />
-                  <a
-                    onClick={() =>
-                      incrementQuantity(item.productId, item.quantity)
-                    }
-                    className="btn btn-outline-secondary btn-sm rounded-circle"
-                  >
-                    +
-                  </a>
+      <div className="checkout-detail">
+        <h3 className="fw-semibold dark-text checkout-title">Cart Items</h3>
+        <div className="order-summery-section mt-0">
+          <div className="checkout-detail p-0 ng-star-inserted">
+            {items.map((item) => (
+              <ul>
+              <li className="ng-star-inserted">
+                <div className="horizontal-product-box">
+                  <div className="product-content">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <h5>{item.productName}</h5>
+                      <h6 className="product-price">${item.price}</h6>
+                    </div>
+                    <h6 className="ingredients-text">{item.discount}</h6>
+                    <div className="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
+                      <h6 className="place">Quantity: {item.quantity}</h6>
+                      <div className="plus-minus">
+                        <i className="ri-subtract-line sub" 
+                        onClick={() => decrementQuantity(item.productId,item.quantity)}></i>
+                        <input type="number" value={item.quantity}/>
+                        <i className="ri-add-line add" 
+                        onClick={() => incrementQuantity(item.productId,item.quantity)}></i>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </li>
+
+            </ul>
+            ))}
+            
+            <h5 className="bill-details-title fw-semibold dark-text">
+              Bill Details
+            </h5>
+            <div className="sub-total">
+              <h6 className="content-color fw-normal">Sub Total</h6>
+              <h6 className="fw-semibold">${basket?.totalPrice}</h6>
+            </div>
+            <div className="sub-total">
+              <h6 className="content-color fw-normal">
+                Delivery Charge (2 kms)
+              </h6>
+              <h6 className="fw-semibold success-color">Free</h6>
+            </div>
+            <div className="sub-total">
+              <h6 className="content-color fw-normal">Tax</h6>
+              <h6 className="fw-semibold">${basket?.tax.toFixed(2)}</h6>
+            </div>
+            <div className="sub-total">
+              <h6 className="content-color fw-normal">Discount</h6>
+              <h6 className="fw-semibold">${basket?.discount.toFixed(2)}</h6>
+            </div>
+            <div className="grand-total">
+              <h6 className="fw-semibold dark-text">To Pay</h6>
+              <h6 className="fw-semibold amount">${basket?.grandTotal.toFixed(2)}</h6>
             </div>
           </div>
-        ))}
+        </div>
+        <a className="btn theme-btn rounded-4" onClick={goToPreviousStep}>Prev</a>
+        <a
+          className="btn theme-btn restaurant-btn w-100 rounded-2"
+          onClick={goToNextStep}
+        >
+          CheckOut
+        </a>
+        <img
+          src="assets/images/svg/dots-design.svg"
+          alt="dots"
+          className="dots-design"
+        />
       </div>
     </div>
   );

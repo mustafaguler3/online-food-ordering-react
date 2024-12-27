@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useMemo, useReducer, useState } from "react";
 import { Product } from "../../../models/Product";
 import { Basket } from "../types/cartTypes";
 import cartApi from "../../../api/cartApi";
@@ -20,7 +20,9 @@ export const CartProvider = ({children}: {children: ReactNode}) => {
     const [basket, setBasket] = useState<Basket | null>(null);
     //const [totalCount, setTotalCount] = useState<number>(0)
 
-    const totalCount = basket ? basket.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+    const totalCount = useMemo(() => {
+        return basket ? basket.items.reduce((sum, item) => sum + item.quantity, 0) : 0;
+    }, [basket]);
 
 
     const loadBasket = async () => {

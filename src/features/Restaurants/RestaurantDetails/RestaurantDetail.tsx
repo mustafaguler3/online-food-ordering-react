@@ -172,7 +172,9 @@ export default function RestaurantDetail() {
               </div>
 
               <div className="col-lg-3 product-details-content">
-                  <CartItem items={basket?.items}/>
+                  <CartItem items={basket?.items} onStepChange={function (val: any): void {
+                  throw new Error("Function not implemented.");
+                } }/>
               </div>
             </div>
           </div>

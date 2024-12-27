@@ -21,7 +21,7 @@ export function Navbar() {
     if(user) {
       loadBasket()
     }
-  },[])
+  },[user])
 
   return (
     <header>

@@ -1,0 +1,9 @@
+/* Global body için scroll pozisyonunu kontrol et */
+body {
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Sayfanın tamamını kapsayacak şekilde */
+    margin: 0; /* Varsayılan margin'i sıfırla */
+  }

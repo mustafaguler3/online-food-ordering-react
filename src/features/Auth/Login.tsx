@@ -39,7 +39,7 @@ const Login: React.FC = () => {
   };
   useEffect(() => {
     loadUser()
-  },[loadUser])
+  },[])
 
   return (
     <>
