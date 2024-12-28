@@ -4,7 +4,6 @@ import authService from "../../services/authService";
 import { useUser } from "./context/UserContext";
 import { Outlet } from "react-router-dom";
 import { Link } from "react-router-dom";
-import "./Profile.css"
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
@@ -69,7 +68,7 @@ export default function Profile() {
                   </li>
                   <li>
                     <i className="ri-bank-card-line"></i>
-                    <a href="/account/saved-card">Saved Card</a>
+                    <Link to={"saved-cards"}>Saved Card</Link>
                   </li>
                   <li>
                     <i className="ri-question-line"></i>

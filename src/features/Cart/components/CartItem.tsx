@@ -89,7 +89,7 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
   return (
     <div className="order-summery-section sticky-top">
       <div className="checkout-detail">
-        <h3 className="fw-semibold dark-text checkout-title">Cart Items</h3>
+        <h3 className="fw-semibold dark-text checkout-title">Your Cart</h3>
         <div className="order-summery-section mt-0">
           <div className="checkout-detail p-0 ng-star-inserted">
             {items.map((item) => (
@@ -101,7 +101,7 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
                       <h5>{item.productName}</h5>
                       <h6 className="product-price">${item.price}</h6>
                     </div>
-                    <h6 className="ingredients-text">{item.discount}</h6>
+                    <h6 className="ingredients-text">{item.description}</h6>
                     <div className="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
                       <h6 className="place">Quantity: {item.quantity}</h6>
                       <div className="plus-minus">

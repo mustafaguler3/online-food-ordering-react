@@ -45,7 +45,7 @@ export default function CartPage() {
           <div className="layout-sec">
             <div className="row g-lg-4 g-4">
               <div className="col-lg-8">
-                <OrderProcess currentStep={currentStep} />
+                <OrderProcess currentStep={currentStep} onStepChange={handleStepChange}/>
               </div>
               <div className="col-lg-4">
                 {basket ? (

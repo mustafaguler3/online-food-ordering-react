@@ -145,12 +145,12 @@ export function Navbar() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="" className="dropdown-item">
+                      <Link to={'profile/saved-address'} className="dropdown-item">
                         {t("Saved Address")}
                       </Link>
                     </li>
                     <li>
-                      <Link to="" className="dropdown-item">
+                      <Link to={'profile/saved-cards'} className="dropdown-item">
                         {t("Saved cards")}
                       </Link>
                     </li>

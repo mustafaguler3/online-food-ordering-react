@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import "./Profile.css";
 import { useUser } from "./context/UserContext";
 import { Address } from "../../models/Address";
 import userService from "../../services/userService";

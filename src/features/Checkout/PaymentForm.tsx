@@ -1,31 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 
 export default function PaymentForm() {
+  const [activeAccordion, setActiveAccordion] = useState(null);
+
+  const handleSubmit = (event: any) => {
+    const formData = new FormData(event.target)
+
+    const cardData = {
+      cardNumber: formData.get("cardNumber"),
+      cardHolderName: formData.get("cardHolderName"),
+      paymentMethod: formData.get("paymentMethod"),
+      cvv: formData.get("cvv"),
+      expiryDate: formData.get("expiryDate"),
+    }
+
+    
+
+  }
+
+  const toggleAccordion = (index:any) => {
+    setActiveAccordion((prev) => (prev === index ? null : index));
+  };
+
   return (
     <div className="payment-section">
       <div className="mb-0 title">
         <h3>Choose Payment Method</h3>
-
         <h6>There are many Types of Payment Method</h6>
       </div>
       <div className="accordion payment-accordion">
-        <div className="accordion-item" id="ngb-accordion-item-9">
+        {/* Accordion Item 1 */}
+        <div className="accordion-item">
           <h2 role="heading" className="accordion-header">
             <button
               type="button"
-              className="accordion-button"
-              id="ngb-accordion-item-9-toggle"
-              aria-controls="ngb-accordion-item-9-collapse"
-              aria-expanded="true"
+              className={`accordion-button ${
+                activeAccordion === 1 ? "" : "collapsed"
+              }`}
+              onClick={() => toggleAccordion(1)}
+              aria-expanded={activeAccordion === 1}
             >
               Credit / Debit Card
             </button>
           </h2>
           <div
-            role="region"
-            className="accordion-collapse collapse show"
-            id="ngb-accordion-item-9-collapse"
-            aria-labelledby="ngb-accordion-item-9-toggle"
+            className={`accordion-collapse collapse ${
+              activeAccordion === 1 ? "show" : ""
+            }`}
           >
             <div className="accordion-body">
               <form className="row g-3">
@@ -33,7 +54,6 @@ export default function PaymentForm() {
                   <label className="form-label">Card Number</label>
                   <input
                     type="number"
-                    id="inputCardnumber"
                     placeholder="Enter your card number"
                     className="form-control"
                   />
@@ -42,7 +62,6 @@ export default function PaymentForm() {
                   <label className="form-label">Card Holder Name</label>
                   <input
                     type="text"
-                    id="inputCardholdername"
                     placeholder="Enter Holder name"
                     className="form-control"
                   />
@@ -51,7 +70,6 @@ export default function PaymentForm() {
                   <label className="form-label">Exp. Date</label>
                   <input
                     type="date"
-                    id="inputAddress"
                     placeholder="Enter date"
                     className="form-control"
                   />
@@ -60,7 +78,6 @@ export default function PaymentForm() {
                   <label className="form-label">CVV</label>
                   <input
                     type="number"
-                    id="inputCity"
                     placeholder="Enter your cvv"
                     className="form-control"
                   />
@@ -74,95 +91,53 @@ export default function PaymentForm() {
                   </a>
                 </div>
               </form>
-              <ul className="card-list">
-                <li>
-                  <div className="form-check form-check-reverse">
-                    <label className="form-check-label">
-                      <img
-                        src="assets/images/icons/svg/mastercard.svg"
-                        alt="mastercard"
-                        className="img-fluid img"
-                      />
-                      <h6 className="card-name dark-text">
-                        Mastercard
-                        <span>**** **** 4586 </span>| Expires on
-                        <span> 12/24</span>
-                      </h6>
-                    </label>
-                    <input
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault01"
-                      className="form-check-input"
-                    />
-                  </div>
-                </li>
-                <li>
-                  <div className="form-check form-check-reverse">
-                    <label className="form-check-label">
-                      <img
-                        src="assets/images/icons/svg/mastercard.svg"
-                        alt="mastercard"
-                        className="img-fluid img"
-                      />
-                      <h6 className="card-name dark-text">
-                        Mastercard
-                        <span>**** **** 4586 </span>| Expires on
-                        <span> 12/24</span>
-                      </h6>
-                    </label>
-                    <input
-                      type="radio"
-                      name="flexRadioDefault"
-                      id="flexRadioDefault02"
-                      className="form-check-input"
-                    />
-                  </div>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
-        <div className="accordion-item" id="ngb-accordion-item-10">
-          <h2 role="heading" className="accordion-header collapsed">
+
+        {/* Accordion Item 2 */}
+        <div className="accordion-item">
+          <h2 role="heading" className="accordion-header">
             <button
               type="button"
-              className="accordion-button collapsed"
-              id="ngb-accordion-item-10-toggle"
-              aria-controls="ngb-accordion-item-10-collapse"
-              aria-expanded="false"
+              className={`accordion-button ${
+                activeAccordion === 2 ? "" : "collapsed"
+              }`}
+              onClick={() => toggleAccordion(2)}
+              aria-expanded={activeAccordion === 2}
             >
               My Wallet
             </button>
           </h2>
           <div
-            role="region"
-            className="accordion-collapse collapse"
-            id="ngb-accordion-item-10-collapse"
-            aria-labelledby="ngb-accordion-item-10-toggle"
+            className={`accordion-collapse collapse ${
+              activeAccordion === 2 ? "show" : ""
+            }`}
           >
-            <div className="accordion-body"></div>
+            <div className="accordion-body">Wallet details go here.</div>
           </div>
         </div>
-        <div className="accordion-item" id="ngb-accordion-item-11">
-          <h2 role="heading" className="accordion-header collapsed">
+
+        {/* Accordion Item 3 */}
+        <div className="accordion-item">
+          <h2 role="heading" className="accordion-header">
             <button
               type="button"
-              className="accordion-button collapsed"
-              id="ngb-accordion-item-11-toggle"
-              aria-controls="ngb-accordion-item-11-collapse"
-              aria-expanded="false"
+              className={`accordion-button ${
+                activeAccordion === 3 ? "" : "collapsed"
+              }`}
+              onClick={() => toggleAccordion(3)}
+              aria-expanded={activeAccordion === 3}
             >
               Delivery Option
             </button>
           </h2>
           <div
-            role="region"
-            className="accordion-collapse collapse"
-            id="ngb-accordion-item-11-collapse"
-            aria-labelledby="ngb-accordion-item-11-toggle"
+            className={`accordion-collapse collapse ${
+              activeAccordion === 3 ? "show" : ""
+            }`}
           >
-            <div className="accordion-body"></div>
+            <div className="accordion-body">Delivery options go here.</div>
           </div>
         </div>
       </div>

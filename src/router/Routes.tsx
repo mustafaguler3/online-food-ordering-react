@@ -10,6 +10,7 @@ import Profile from "../features/User/Profile";
 import ChangeProfile from "../features/User/ChangeProfile";
 import SavedAddress from "../features/User/SavedAddress";
 import ProtectedRoute from "./ProtectedRoute";
+import SavedCards from "../features/User/SavedCards";
 
 export const router = createBrowserRouter([
     {
@@ -25,7 +26,8 @@ export const router = createBrowserRouter([
                 children: [
                     {path:"",element: <ChangeProfile />},
                     {path:"change-profile",element: <ChangeProfile />},
-                    {path:"saved-address",element: <SavedAddress />}
+                    {path:"saved-address",element: <SavedAddress />},
+                    {path:"saved-cards",element: <SavedCards />}
                 ]
             },
 

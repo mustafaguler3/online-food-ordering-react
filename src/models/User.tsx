@@ -1,4 +1,5 @@
 import { Address } from "./Address"
+import { SavedCard } from "./SavedCard"
 
 
 export interface User {
@@ -12,4 +13,5 @@ export interface User {
     lastName:string
     isEnabled:boolean
     addresses: Address[]
+    cards: SavedCard[]
 }

@@ -8,10 +8,11 @@ import ConfirmStep from "../../Checkout/ConfirmStep";
 
 interface StepProps {
   currentStep: any;
+  onStepChange: (val: any) => void
 }
 
-export default function OrderProcess({ currentStep }: StepProps) {
-  const { user, loadUser } = useUser();
+export default function OrderProcess({ currentStep,onStepChange }: StepProps) {
+  const { user } = useUser();
 
   const steps = [
     {
@@ -40,6 +41,7 @@ export default function OrderProcess({ currentStep }: StepProps) {
     const stepIndex = steps.findIndex((step) => step.name === stepName);
     return stepIndex <= currentIndex;
   };
+
   return (
     <>
       <div className="process-section">
@@ -98,7 +100,7 @@ export default function OrderProcess({ currentStep }: StepProps) {
 
         {currentStep === "address" && user && (
           <div>
-            <AddressForm />
+            <AddressForm onStepChange={onStepChange}/>
           </div>
         )}
 

@@ -1,7 +1,14 @@
 import userApi from "../api/userApi"
 import { Address } from "../models/Address";
+import { SavedCard } from "../models/SavedCard";
 
 const userService = {
+    
+    getSavedCards: async (): Promise<SavedCard[]> => {
+        const response = await userApi.getSavedCards();
+        console.log("userService saved. ",response)
+        return response;
+    },
     getUserProfile: async () => {
         const response = await userApi.getUserProfile();
         return response;

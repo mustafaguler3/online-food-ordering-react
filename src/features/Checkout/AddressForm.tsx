@@ -4,7 +4,7 @@ import { Address } from "../../models/Address";
 import addressService from "../../services/addressService";
 import { toast } from "react-toastify";
 
-export default function AddressForm() {
+export default function AddressForm({currentStep,onStepChange}:any) {
   const { user } = useUser();
   const [openModal, setOpenModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
@@ -49,6 +49,17 @@ export default function AddressForm() {
     }
   };
 
+  const handleDeliverHere = async (address: Address) => {
+    try {
+      console.log("Saving selected address:", address);
+      await addressService.addAddress(address);
+      onStepChange("payment")
+    } catch (error) {
+      console.error("Error saving address:", error);
+      alert("Failed to save address!");
+    }
+  };
+
   return (
     <div className="address-section">
       <div className="title">
@@ -78,7 +89,7 @@ export default function AddressForm() {
                 </h6>
                 <h6 className="phone-number">+{address.phone}</h6>
                 <div className="option-section">
-                  <button className="btn gray-btn rounded-2 mt-0">
+                  <button onClick={() => handleDeliverHere(address)} className="btn gray-btn rounded-2 mt-0">
                     Deliver Here
                   </button>
                 </div>

@@ -1,4 +1,5 @@
 import { Address } from "../models/Address";
+import { SavedCard } from "../models/SavedCard";
 import { User } from "../models/User";
 import axiosClient from "./axiosClient";
 
@@ -27,6 +28,14 @@ const userApi = {
       .then(res => res.data)
       .catch(error => {
         console.log("Error ",error)
+        throw error;
+      })
+    },
+    getSavedCards: () : Promise<SavedCard[]> => {
+      return axiosClient.get(`/cards/saved-cards`)
+      .then(response => response.data)
+      .catch(error => {
+        console.log("error ",error)
         throw error;
       })
     }
