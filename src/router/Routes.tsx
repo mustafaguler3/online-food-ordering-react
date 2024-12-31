@@ -9,7 +9,6 @@ import CartPage from "../features/Cart/pages/CartPage";
 import Profile from "../features/User/Profile";
 import ChangeProfile from "../features/User/ChangeProfile";
 import SavedAddress from "../features/User/SavedAddress";
-import ProtectedRoute from "./ProtectedRoute";
 import SavedCards from "../features/User/SavedCards";
 
 export const router = createBrowserRouter([

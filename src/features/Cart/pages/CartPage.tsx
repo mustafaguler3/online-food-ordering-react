@@ -54,9 +54,7 @@ export default function CartPage() {
                     currentStep={currentStep}
                     onStepChange={handleStepChange}
                   />
-                ) : (
-                  <h2>No item in basket</h2>
-                )}
+                ) : ""}
               </div>
             </div>
           </div>

@@ -1,6 +1,7 @@
 import { EnumType } from "typescript";
 
 export interface Address {
+    id?: number
     firstName: string;
     lastName: string;
     addressLine1: string;

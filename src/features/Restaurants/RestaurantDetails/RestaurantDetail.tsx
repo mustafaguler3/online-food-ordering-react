@@ -13,8 +13,9 @@ export default function RestaurantDetail() {
   const { restaurantId } = useParams();
   const [restaurant, setRestaurant] = useState<Restaurant | any>();
   const [products, setProducts] = useState<Product[] | any>();
-
   const { basket,addToCart,updateQuantity } = useCart()
+
+  
   
   useEffect(() => {
     const getRestaurant = async () => {
@@ -169,12 +170,6 @@ export default function RestaurantDetail() {
                     <Products items={products} />
                   </div>
                 </div>
-              </div>
-
-              <div className="col-lg-3 product-details-content">
-                  <CartItem items={basket?.items} onStepChange={function (val: any): void {
-                  throw new Error("Function not implemented.");
-                } }/>
               </div>
             </div>
           </div>

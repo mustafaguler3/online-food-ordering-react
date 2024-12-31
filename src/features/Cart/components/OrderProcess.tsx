@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import AddressForm from "../../Checkout/AddressForm";
 import PaymentForm from "../../Checkout/PaymentForm";
 import ConfirmStep from "../../Checkout/ConfirmStep";
+import { Address } from "../../../models/Address";
+import { Order } from "../../../models/Order";
 
 
 interface StepProps {
@@ -14,6 +16,9 @@ interface StepProps {
 export default function OrderProcess({ currentStep,onStepChange }: StepProps) {
   const { user } = useUser();
 
+  const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  
   const steps = [
     {
       name: "account",
@@ -100,19 +105,26 @@ export default function OrderProcess({ currentStep,onStepChange }: StepProps) {
 
         {currentStep === "address" && user && (
           <div>
-            <AddressForm onStepChange={onStepChange}/>
+            <AddressForm 
+            onStepChange={onStepChange}
+            onAddressSelect={setSelectedAddress} />
           </div>
         )}
 
         {currentStep === "payment" && user && (
           <div>
-            <PaymentForm />
+            <PaymentForm 
+            onStepChange={onStepChange} 
+            selectedAddress={selectedAddress}
+            onOrderSelect={setSelectedOrder} 
+            />
           </div>
         )}
 
         {currentStep === "confirm" && user && (
           <div>
-            <ConfirmStep />
+            <ConfirmStep 
+            selectedOrder={selectedOrder}/>
           </div>
         )}
       </div>

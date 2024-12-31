@@ -7,17 +7,21 @@ import { useEffect, useState } from "react";
 interface BasketItemProps {
   items: BasketItem[] | undefined;
   currentStep?: any;
-  onStepChange: (val:any) => void;
+  onStepChange?: (val:any) => void;
 }
 export default function CartItem({ currentStep, onStepChange,items: initialItems }: BasketItemProps) {
   const [items, setItems] = useState<BasketItem[] | undefined>(initialItems);
   const { basket, loadBasket } = useCart();
   const { user } = useUser();
 
-
+  const handleStepChange = (val: any) => {
+    if (onStepChange) {
+      onStepChange(val);
+    }
+  };
   useEffect(() => {
     if(currentStep === "account" && user){
-      onStepChange("address")
+      handleStepChange("address")
     }
   },[])
 
@@ -65,24 +69,23 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
   }
 
   
-
   const goToNextStep = () => {
     if (currentStep === "account") {
-      onStepChange("address");
+      handleStepChange("address");
     } else if (currentStep === "address") {
-      onStepChange("payment");
+      handleStepChange("payment");
     } else if (currentStep === "payment") {
-      onStepChange("confirm");
+      handleStepChange("confirm");
     }
   };
 
   const goToPreviousStep = () => {
     if (currentStep === "confirm") {
-      onStepChange("payment");
+      handleStepChange("payment");
     } else if (currentStep === "payment") {
-      onStepChange("address");
+      handleStepChange("address");
     } else if (currentStep === "address") {
-      onStepChange("account");
+      handleStepChange("account");
     }
   };
 
@@ -146,7 +149,6 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
             </div>
           </div>
         </div>
-        <a className="btn theme-btn rounded-4" onClick={goToPreviousStep}>Prev</a>
         <a
           className="btn theme-btn restaurant-btn w-100 rounded-2"
           onClick={goToNextStep}

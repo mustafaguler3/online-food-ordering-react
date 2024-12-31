@@ -4,7 +4,7 @@ import { Address } from "../../models/Address";
 import addressService from "../../services/addressService";
 import { toast } from "react-toastify";
 
-export default function AddressForm({currentStep,onStepChange}:any) {
+export default function AddressForm({ onAddressSelect, onStepChange }: any) {
   const { user } = useUser();
   const [openModal, setOpenModal] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
@@ -13,15 +13,13 @@ export default function AddressForm({currentStep,onStepChange}:any) {
     setSelectedAddress(address);
     setOpenModal(true);
   };
-
   const handleCloseModal = () => {
     setOpenModal(false);
     setSelectedAddress(null);
   };
-
   const handleSubmit = async (event: any) => {
-    event.preventDefault(); // Form submit işleminden sayfanın yenilenmesini engelle
-    const formData = new FormData(event.target); // Form verilerini al
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
     const addressData = {
       firstName: formData.get("firstName"),
@@ -41,10 +39,13 @@ export default function AddressForm({currentStep,onStepChange}:any) {
       console.log("Updating address:", addressData);
       // updateAddress(selectedAddress.id, addressData); // Güncelleme için API çağrısı
     } else {
-      // Yeni adres ekleme işlemi
       console.log("Adding new address:", addressData);
       toast.success("Adding new address:");
-      await addressService.addAddress(addressData); // Eklemek için API çağrısı
+      await addressService.addAddress(addressData);
+      onAddressSelect({
+        shippingAddress: addressData,
+      });
+      onStepChange("payment");
       handleCloseModal();
     }
   };
@@ -52,8 +53,10 @@ export default function AddressForm({currentStep,onStepChange}:any) {
   const handleDeliverHere = async (address: Address) => {
     try {
       console.log("Saving selected address:", address);
-      await addressService.addAddress(address);
-      onStepChange("payment")
+      onAddressSelect({
+        addressId: address.id,
+      });
+      onStepChange("payment");
     } catch (error) {
       console.error("Error saving address:", error);
       alert("Failed to save address!");
@@ -89,7 +92,10 @@ export default function AddressForm({currentStep,onStepChange}:any) {
                 </h6>
                 <h6 className="phone-number">+{address.phone}</h6>
                 <div className="option-section">
-                  <button onClick={() => handleDeliverHere(address)} className="btn gray-btn rounded-2 mt-0">
+                  <button
+                    onClick={() => handleDeliverHere(address)}
+                    className="btn gray-btn rounded-2 mt-0"
+                  >
                     Deliver Here
                   </button>
                 </div>

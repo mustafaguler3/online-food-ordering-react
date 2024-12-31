@@ -1,6 +1,7 @@
 import React from "react";
 
-export default function ConfirmStep() {
+export default function ConfirmStep({selectedOrder}:any) {
+  console.log("selected order ->", selectedOrder)
   return (
     <div className="account-part confirm-part">
       <img
