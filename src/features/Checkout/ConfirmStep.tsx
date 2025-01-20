@@ -15,7 +15,7 @@ export default function ConfirmStep({selectedOrder}:any) {
         before you get it.
       </p>
       <div className="account-btn d-flex justify-content-center gap-2">
-        <a className="btn theme-btn mt-0" href="/zomo/order/confirm-order">
+        <a className="btn theme-btn mt-0" href="order/confirm-order">
           TRACK ORDER
         </a>
       </div>

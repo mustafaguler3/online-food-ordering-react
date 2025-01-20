@@ -35,7 +35,6 @@ export default function AddressForm({ onAddressSelect, onStepChange }: any) {
     };
 
     if (selectedAddress) {
-      // Güncelleme işlemi
       console.log("Updating address:", addressData);
       // updateAddress(selectedAddress.id, addressData); // Güncelleme için API çağrısı
     } else {
@@ -56,6 +55,7 @@ export default function AddressForm({ onAddressSelect, onStepChange }: any) {
       onAddressSelect({
         addressId: address.id,
       });
+      setSelectedAddress(address)
       onStepChange("payment");
     } catch (error) {
       console.error("Error saving address:", error);

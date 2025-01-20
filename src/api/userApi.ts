@@ -8,11 +8,7 @@ const userApi = {
         return axiosClient.get("/user/account/profile")
         .then(res => res.data)
         .catch(error => {
-            if (error.response) {
-                throw error.response; 
-              } else {
-                throw new Error('An unexpected error occurred');
-              }
+            throw error
         })
     },
 

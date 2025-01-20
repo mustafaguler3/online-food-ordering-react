@@ -1,4 +1,5 @@
 import { Address } from "./Address"
+import { Order } from "./Order"
 import { SavedCard } from "./SavedCard"
 
 
@@ -14,4 +15,5 @@ export interface User {
     isEnabled:boolean
     addresses: Address[]
     cards: SavedCard[]
+    orders: Order[]
 }

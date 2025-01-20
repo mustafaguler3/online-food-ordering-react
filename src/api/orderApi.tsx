@@ -4,7 +4,7 @@ import axiosClient from "./axiosClient";
 const apiUrl = process.env.REACT_APP_API_URL;
 
 const orderApi = {
-    create: (data: Order) => {
+    create: (data: Order): Promise<void> => {
         return axiosClient.post(`${apiUrl}/order/create`,data)
         .then(res => res.data)
         .catch(error => {

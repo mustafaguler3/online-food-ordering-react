@@ -6,19 +6,19 @@ import PaymentForm from "../../Checkout/PaymentForm";
 import ConfirmStep from "../../Checkout/ConfirmStep";
 import { Address } from "../../../models/Address";
 import { Order } from "../../../models/Order";
-
+import { toast } from "react-toastify";
 
 interface StepProps {
   currentStep: any;
-  onStepChange: (val: any) => void
+  onStepChange: (val: any) => void;
 }
 
-export default function OrderProcess({ currentStep,onStepChange }: StepProps) {
+export default function OrderProcess({ currentStep, onStepChange }: StepProps) {
   const { user } = useUser();
 
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
-  
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+
   const steps = [
     {
       name: "account",
@@ -45,6 +45,19 @@ export default function OrderProcess({ currentStep,onStepChange }: StepProps) {
     const currentIndex = steps.findIndex((step) => step.name === currentStep);
     const stepIndex = steps.findIndex((step) => step.name === stepName);
     return stepIndex <= currentIndex;
+  };
+
+  const goToNextStep = async () => {
+    if (currentStep === "account") {
+      onStepChange("address");
+    } else if (currentStep === "address") {
+      onStepChange("payment");
+    } else if (currentStep === "payment") {
+      onStepChange("confirm");
+    } else {
+      console.log("Error");
+      toast.error("Errro occurred");
+    }
   };
 
   return (
@@ -102,29 +115,28 @@ export default function OrderProcess({ currentStep,onStepChange }: StepProps) {
       </div>
 
       <div>
-
         {currentStep === "address" && user && (
           <div>
-            <AddressForm 
-            onStepChange={onStepChange}
-            onAddressSelect={setSelectedAddress} />
+            <AddressForm
+              onStepChange={onStepChange}
+              onAddressSelect={setSelectedAddress}
+            />
           </div>
         )}
 
         {currentStep === "payment" && user && (
           <div>
-            <PaymentForm 
-            onStepChange={onStepChange} 
-            selectedAddress={selectedAddress}
-            onOrderSelect={setSelectedOrder} 
+            <PaymentForm
+              onStepChange={onStepChange}
+              selectedAddress={selectedAddress}
+              onOrderSelect={setSelectedOrder}
             />
           </div>
         )}
 
         {currentStep === "confirm" && user && (
           <div>
-            <ConfirmStep 
-            selectedOrder={selectedOrder}/>
+            <ConfirmStep selectedOrder={selectedOrder} />
           </div>
         )}
       </div>

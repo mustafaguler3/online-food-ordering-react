@@ -2,18 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useCart } from "../context/CartContext";
 import CartItem from "../components/CartItem";
 import "./CartPage.css";
-import { useUser } from "../../User/context/UserContext";
 import OrderProcess from "../components/OrderProcess";
+import { useDispatch, useSelector } from 'react-redux'
+import cartService from "../../../services/cartService";
+import { fetchBasket } from "../../../store/basketSlice";
 
 export default function CartPage() {
-  const { basket } = useCart();
-  const { user } = useUser();
+  const dispatch = useDispatch();
+  const basket = useSelector((state:any)=> state.basket.basket)
+  const loading = useSelector((state:any)=> state.basket.loading)
+
   const [currentStep, setCurrentStep] = useState("account");
+
+  useEffect(() => {
+    dispatch(fetchBasket());
+  }, [dispatch]);
 
   const handleStepChange = (newStep: any) => {
     setCurrentStep(newStep);
   };
 
+  if (loading) return <p>Loading...</p>;
+  
   return (
     <div className="bg-color">
       <section className="page-head-section">

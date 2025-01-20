@@ -48,7 +48,7 @@ export const UserProvider: React.FC<React.PropsWithChildren> = ({children}:any) 
 
     const logout = () => {
         authService.logout();
-        localStorage.removeItem('accessToken'); // Token'i temizle
+        localStorage.removeItem('accessToken');
         setUser(null);
         setAddress(null);
     }

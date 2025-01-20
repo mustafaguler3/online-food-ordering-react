@@ -4,12 +4,17 @@ import "./CartItem.css";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../../User/context/UserContext";
 import { useEffect, useState } from "react";
+import orderService from "../../../services/orderService";
+import { Order } from "../../../models/Order";
+import { useDispatch } from "react-redux";
 interface BasketItemProps {
   items: BasketItem[] | undefined;
   currentStep?: any;
   onStepChange?: (val:any) => void;
 }
 export default function CartItem({ currentStep, onStepChange,items: initialItems }: BasketItemProps) {
+  const dispatch = useDispatch();
+
   const [items, setItems] = useState<BasketItem[] | undefined>(initialItems);
   const { basket, loadBasket } = useCart();
   const { user } = useUser();
@@ -35,7 +40,8 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
     );
     try {
       await cartService.updateCart(productId, getItemQuantity(productId) + 1);
-      await loadBasket()
+      //await loadBasket()
+      dispatch(fetchBasket());
     } catch (error) {
       console.error("Increment failed:", error);
       alert("Failed to update cart!");
@@ -53,7 +59,8 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
     );
     try {
       await cartService.updateCart(productId, currentQuantity - 1);
-      await loadBasket()
+      //await loadBasket()
+      dispatch(fetchBasket());
     } catch (error) {
       console.error("Decrement failed:", error);
       alert("Failed to update cart!");
@@ -67,28 +74,6 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
   if (!items || items.length === 0) {
     return <p>Your cart is empty.</p>;
   }
-
-  
-  const goToNextStep = () => {
-    if (currentStep === "account") {
-      handleStepChange("address");
-    } else if (currentStep === "address") {
-      handleStepChange("payment");
-    } else if (currentStep === "payment") {
-      handleStepChange("confirm");
-    }
-  };
-
-  const goToPreviousStep = () => {
-    if (currentStep === "confirm") {
-      handleStepChange("payment");
-    } else if (currentStep === "payment") {
-      handleStepChange("address");
-    } else if (currentStep === "address") {
-      handleStepChange("account");
-    }
-  };
-
   return (
     <div className="order-summery-section sticky-top">
       <div className="checkout-detail">
@@ -149,12 +134,6 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
             </div>
           </div>
         </div>
-        <a
-          className="btn theme-btn restaurant-btn w-100 rounded-2"
-          onClick={goToNextStep}
-        >
-          CheckOut
-        </a>
         <img
           src="assets/images/svg/dots-design.svg"
           alt="dots"
