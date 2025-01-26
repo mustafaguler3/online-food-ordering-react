@@ -10,6 +10,14 @@ const cartApi = {
             throw error;
         })
     },
+    applyCode: (code: string)=> {
+        return axiosClient.post(`/basket/applyCode?discountCode=${code}`)
+        .then(response => response.data)
+        .catch(error => {
+            console.log("Basket Code Error ", error)
+            throw error
+        })
+    },
     addToCart: (productId: number, quantity: number) : Promise<void> => {
         return axiosClient.post(`/basket/add`,{productId,quantity})
         .then(res => res.data)

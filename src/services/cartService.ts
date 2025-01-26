@@ -12,6 +12,14 @@ class CartService {
           throw error;
         }
     }
+    async applyCode(code: string) {
+      try {
+        const response = await cartApi.applyCode(code);
+        return response;
+      }catch(error) {
+        throw error
+      }
+    }
     async addToCart(productId: number, quantity: number) {
       try {
         await cartApi.addToCart(productId,quantity);

@@ -15,13 +15,13 @@ import { updateBasketItem } from '../../../store/basketSlice';
 import Icon from '@mui/material/Icon';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
 export default function CartPage() {
   const dispatch = useDispatch<AppDispatch>();
   const basket = useSelector((state: any) => state.basket.basket);
   const loading = useSelector((state: any) => state.basket.loading);
-  const b = useCart();
-
+ 
   useEffect(() => {
     dispatch(fetchBasket());
   }, [dispatch]);
@@ -41,13 +41,23 @@ export default function CartPage() {
   };
 
   const [couponCode, setCouponCode] = useState("");
+  const [error, setError] = useState(""); 
 
-  const applyCoupon = () => {
-    if (couponCode) {
-      alert(`Coupon "${couponCode}" applied successfully!`);
-      setCouponCode("");
-    } else {
-      alert("Please enter a valid coupon code.");
+  const applyCoupon = async () => {
+    if (!couponCode) {
+      setError("Please enter a valid coupon code.");
+      return;
+    }
+
+    try {
+      await cartService.applyCode(couponCode);
+      dispatch(fetchBasket());
+      toast.success(`Coupon "${couponCode}" applied successfully!`)
+      setCouponCode(""); 
+      setError("");
+    } catch (error) {
+      toast.error("Failed to apply coupon. Please try again.")
+      setError("Failed to apply coupon. Please try again.");
     }
   };
 
@@ -137,14 +147,16 @@ export default function CartPage() {
                             </button>
                           </div>
                         </td>
-                        <td>${item.totalPrice.toFixed(2)}</td>
+                        <td>${item.totalPrice.toFixed(2) || '0.00'}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
             </div>
+            {error && <p style={{ color: "red" }}>{error}</p>} 
           </div>
+          
           {/* Cart Total Section */}
           <div className="cart-total-section">
             <div className="cart-total-box">
@@ -152,7 +164,7 @@ export default function CartPage() {
               <div className="totals">
                 <div className="total-item">
                   <span>Sub-total</span>
-                  <span>${basket.totalPrice}</span>
+                  <span className={basket.discount > 0 ? 'old-price' : ''}>${basket.totalPrice}</span>
                 </div>
                 <div className="total-item">
                   <span>Delivery</span>
@@ -169,7 +181,7 @@ export default function CartPage() {
                 <div className="divider"></div>
                 <div className="total-item total-final">
                   <span>Total</span>
-                  <span>${basket.grandTotal}</span>
+                  <span>${basket.grandTotal?.toFixed(2)}</span>
                 </div>
               </div>
               <div className="coupon-section">
