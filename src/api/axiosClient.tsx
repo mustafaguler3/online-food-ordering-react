@@ -2,6 +2,7 @@
 
 import axios, { AxiosError, AxiosResponse } from "axios"
 import { error } from "console";
+import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const baseURL = process.env.REACT_APP_API_URL
@@ -11,7 +12,7 @@ const axiosClient = axios.create({
     timeout: 10000
 })
 
-axiosClient.interceptors.request.use((config) => {
+axiosClient.interceptors.request.use((config:any) => {
     const token = localStorage.getItem("accessToken");
 
     if(token && config.headers){
@@ -24,26 +25,17 @@ axiosClient.interceptors.request.use((config) => {
 
 // Interceptor: 401 (Unauthorized) durumunda token yenileme
 axiosClient.interceptors.response.use((response) => response, 
-
     async (error: AxiosError) => {
-
-    if(error.response?.status === 500) {
-        toast.error("Sunucuda bir hata oluştu, lütfen daha sonra tekrar deneyin.")
-    }else if (error.response?.status === 403) {
-        //window.location.href = "/unauthorized";
-        toast.warning("Yetkiniz kaldırılmış. Lütfen tekrar giriş yapın.");
-    localStorage.clear(); // Kullanıcı verilerini temizle
-    window.location.href = "/login"; // Giriş ekranına yönlendir
-    }else if (error.response?.status === 404) {
-        toast.info("Aradığınız kaynak bulunamadı.");
-    }else if (error.response?.status === 400) {
-        toast.info(error.message);
-    }
-
     if(error.response?.status === 401) {
         // toekn yenileme süreci
         const originalRequest = error.config as any;
         const refreshToken = localStorage.getItem("refreshToken");
+        if (!refreshToken) {
+            toast.error("Session expired. Please log in again.");
+            localStorage.clear();
+            window.location.href = "/login";
+            return Promise.reject(error);
+        }
 
         if(refreshToken && !originalRequest._retry){
             originalRequest._retry = true

@@ -13,10 +13,8 @@ export default function RestaurantDetail() {
   const { restaurantId } = useParams();
   const [restaurant, setRestaurant] = useState<Restaurant | any>();
   const [products, setProducts] = useState<Product[] | any>();
-  const { basket,addToCart,updateQuantity } = useCart()
+  const { addToCart } = useCart();
 
-  
-  
   useEffect(() => {
     const getRestaurant = async () => {
       if (restaurantId) {

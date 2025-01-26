@@ -4,19 +4,23 @@ import "./CartItem.css";
 import { useCart } from "../context/CartContext";
 import { useUser } from "../../User/context/UserContext";
 import { useEffect, useState } from "react";
-import orderService from "../../../services/orderService";
-import { Order } from "../../../models/Order";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBasket } from "../../../store/basketSlice";
+import { AppDispatch } from "../../../store/store";
 interface BasketItemProps {
   items: BasketItem[] | undefined;
   currentStep?: any;
-  onStepChange?: (val:any) => void;
+  onStepChange?: (val: any) => void;
 }
-export default function CartItem({ currentStep, onStepChange,items: initialItems }: BasketItemProps) {
-  const dispatch = useDispatch();
+export default function CartItem({
+  currentStep,
+  onStepChange,
+  items: initialItems,
+}: BasketItemProps) {
 
+  const dispatch = useDispatch<AppDispatch>();
   const [items, setItems] = useState<BasketItem[] | undefined>(initialItems);
-  const { basket, loadBasket } = useCart();
+  const basket = useSelector((state:any)=> state.basket.basket)
   const { user } = useUser();
 
   const handleStepChange = (val: any) => {
@@ -24,11 +28,12 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
       onStepChange(val);
     }
   };
+
   useEffect(() => {
-    if(currentStep === "account" && user){
-      handleStepChange("address")
+    if (currentStep === "account" && user) {
+      handleStepChange("address");
     }
-  },[])
+  }, [currentStep, handleStepChange, user]);
 
   const incrementQuantity = async (productId: number, quantity: number) => {
     setItems((prevItems) =>
@@ -74,6 +79,7 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
   if (!items || items.length === 0) {
     return <p>Your cart is empty.</p>;
   }
+  
   return (
     <div className="order-summery-section sticky-top">
       <div className="checkout-detail">
@@ -82,31 +88,38 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
           <div className="checkout-detail p-0 ng-star-inserted">
             {items.map((item) => (
               <ul>
-              <li className="ng-star-inserted">
-                <div className="horizontal-product-box">
-                  <div className="product-content">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <h5>{item.productName}</h5>
-                      <h6 className="product-price">${item.price}</h6>
-                    </div>
-                    <h6 className="ingredients-text">{item.description}</h6>
-                    <div className="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
-                      <h6 className="place">Quantity: {item.quantity}</h6>
-                      <div className="plus-minus">
-                        <i className="ri-subtract-line sub" 
-                        onClick={() => decrementQuantity(item.productId,item.quantity)}></i>
-                        <input type="number" value={item.quantity}/>
-                        <i className="ri-add-line add" 
-                        onClick={() => incrementQuantity(item.productId,item.quantity)}></i>
+                <li className="ng-star-inserted">
+                  <div className="horizontal-product-box">
+                    <div className="product-content">
+                      <div className="d-flex align-items-center justify-content-between">
+                        <h5>{item.productName}</h5>
+                        <h6 className="product-price">${item.unitPrice}</h6>
+                      </div>
+                      <h6 className="ingredients-text">{item.description}</h6>
+                      <div className="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
+                        <h6 className="place">Quantity: {item.quantity}</h6>
+                        <div className="plus-minus">
+                          <i
+                            className="ri-subtract-line sub"
+                            onClick={() =>
+                              decrementQuantity(item.productId, item.quantity)
+                            }
+                          ></i>
+                          <input type="number" value={item.quantity} />
+                          <i
+                            className="ri-add-line add"
+                            onClick={() =>
+                              incrementQuantity(item.productId, item.quantity)
+                            }
+                          ></i>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </li>
-
-            </ul>
+                </li>
+              </ul>
             ))}
-            
+
             <h5 className="bill-details-title fw-semibold dark-text">
               Bill Details
             </h5>
@@ -130,7 +143,9 @@ export default function CartItem({ currentStep, onStepChange,items: initialItems
             </div>
             <div className="grand-total">
               <h6 className="fw-semibold dark-text">To Pay</h6>
-              <h6 className="fw-semibold amount">${basket?.grandTotal.toFixed(2)}</h6>
+              <h6 className="fw-semibold amount">
+                ${basket?.grandTotal.toFixed(2)}
+              </h6>
             </div>
           </div>
         </div>

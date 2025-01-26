@@ -21,8 +21,8 @@ export interface BasketItem {
     productImage: string
     description: string
     basket: Basket
-    quantity: number     
+    quantity: number    
     unitPrice: number  
-    discount: number   
-    price: number
+    discount: number
+    totalPrice:number
 }

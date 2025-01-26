@@ -17,12 +17,14 @@ const cartApi = {
             throw error;
         })
     },
-    updateCart: (productId: number, quantity: number) : Promise<Basket> => {
+    updateCart: (productId: number, quantity: number) => {
         return axiosClient.post(`/basket/update?productId=${productId}&quantity=${quantity}`)
         .then(res => res.data)
         .catch(error => {
+            console.log("Error in cartApi :",error)
             throw error
         })
     }
 }
+
 export default cartApi;

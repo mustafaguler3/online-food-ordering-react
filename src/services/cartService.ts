@@ -4,21 +4,12 @@ import { Basket } from "../features/Cart/types/cartTypes";
 
 
 class CartService {
-
-    async getBasket(): Promise<Basket | null> {
+    async getBasket(): Promise<Basket> {
         try {
           const response = await cartApi.getBasket();
           return response;
         } catch (error: any) {
-          console.error("Error fetching basket:", error);
-          if (axios.isAxiosError(error)) {
-            if (error.response && error.response.status === 404) {
-              throw new Error("Basket not found for the user.");
-            } else if (error.response) {
-              throw new Error(`Failed to fetch basket. Status: ${error.response.status}`);
-            }
-          }
-          return null;
+          throw error;
         }
     }
     async addToCart(productId: number, quantity: number) {
@@ -27,30 +18,16 @@ class CartService {
         console.log("Product added to cart successfully.");
       }catch (error) {
         console.error("Error fetching basket:", error);
-    
-          if (axios.isAxiosError(error)) {
-            if (error.response && error.response.status === 404) {
-              throw new Error("Basket not found for the user.");
-            } else if (error.response) {
-              throw new Error(`Failed to fetch basket. Status: ${error.response.status}`);
-            }
-          }
+        throw error;
       }
     }
     async updateCart(productId: number,quantity: number) {
       try {
-        await cartApi.updateCart(productId,quantity);
+        const response = await cartApi.updateCart(productId,quantity);
         console.log("Product updated successfully.");
+        return response;
       }catch (error) {
-        console.error("Error fetching basket:", error);
-    
-          if (axios.isAxiosError(error)) {
-            if (error.response && error.response.status === 404) {
-              throw new Error("Basket not found for the user.");
-            } else if (error.response) {
-              throw new Error(`Failed to fetch basket. Status: ${error.response.status}`);
-            }
-          }
+        throw error;
       }
     }
 }

@@ -10,6 +10,7 @@ const authApi = {
         return axiosClient.post(`${apiUrl}/auth/login`,data)
         .then(res => res.data)
         .catch(error => {
+            console.log("Login error",error)
             throw error;
         })
         

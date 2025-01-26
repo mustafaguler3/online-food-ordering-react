@@ -155,12 +155,8 @@ export default function Products({ items }: ProductProps) {
                                 ${item.price}
                               </h2>
                               <button
-                                onClick={() => {
-                                  handleAddToCart(item.id,1);
-                                  toast.success(`${item.name} added to cart!`, {
-                                    position: "top-right"
-                                  });
-                                }}
+                                onClick={() => 
+                                  handleAddToCart(item.id,1)}
                                 className="btn theme-outline add-btn mt-0"
                               >
                                 Add

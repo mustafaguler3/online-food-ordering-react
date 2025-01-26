@@ -2,25 +2,29 @@ import React, { useEffect, useState } from "react";
 import "./Navbar.css";
 
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
-import AuthService from "../services/authService";
+import { Link } from "react-router-dom";
 import { useCart } from "../features/Cart/context/CartContext";
 import productService from "../services/productService";
 import { useUser } from "../features/User/context/UserContext";
+import { useSelector } from "react-redux";
+import authService from "../services/authService";
 
 export function Navbar() {
   const { t, i18n } = useTranslation();
+  
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-  
-  const { user,loadUser, logout } = useUser();
-  const { basket,totalCount,loadBasket } = useCart();
+  const { user, logout } = useUser();
+  const { totalCount, loadBasket } = useCart();
+
+  const basket = useSelector((state:any)=> state.basket.basket)
 
   useEffect(() => {
     if(user) {
       loadBasket()
     }
+    console.log("basket nav ",basket)
   },[user])
 
   return (
@@ -57,7 +61,7 @@ export function Navbar() {
                   </div>
                   <div className="onhover-box">
                     <ul className="cart-list">
-                    {basket?.items.map((item) => (
+                    {basket?.items.map((item: any) => (
                       <li className="product-box-contain">
                         <div className="drop-cart">
                           <a href="javascript:void(0);" className="drop-image">
@@ -122,7 +126,7 @@ export function Navbar() {
             {user ? (
               <div className="profile-part dropdown-button order-md-2">
                 <img
-                  src={AuthService.getProfileImage(user.profileImage)}
+                  src={authService.getProfileImage(user.profileImage)}
                   alt="profile"
                   className="img-fluid profile-pic"
                 />
