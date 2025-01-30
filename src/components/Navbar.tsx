@@ -25,7 +25,7 @@ export function Navbar() {
       loadBasket()
     }
     console.log("basket nav ",basket)
-  },[user])
+  },[user,loadBasket])
 
   return (
     <header>
@@ -91,7 +91,7 @@ export function Navbar() {
                     <div className="price-box">
                       <h5>Total :</h5>
                       <h4 className="theme-color fw-semibold">
-                        ${basket?.grandTotal}
+                        ${basket?.grandTotal?.toFixed(2)}
                       </h4>
                     </div>
                     <div className="button-group">

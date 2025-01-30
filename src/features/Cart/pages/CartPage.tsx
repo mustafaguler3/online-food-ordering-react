@@ -1,27 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./CartPage.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearBasket,
-  fetchBasket,
-} from "../../../store/basketSlice";
+import { clearBasket, fetchBasket } from "../../../store/basketSlice";
 import { AppDispatch } from "../../../store/store";
 import { Basket } from "../types/cartTypes";
 
 import productService from "../../../services/productService";
 import cartService from "../../../services/cartService";
 import { useCart } from "../context/CartContext";
-import { updateBasketItem } from '../../../store/basketSlice';
-import Icon from '@mui/material/Icon';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { updateBasketItem } from "../../../store/basketSlice";
 import { toast } from "react-toastify";
 
 export default function CartPage() {
   const dispatch = useDispatch<AppDispatch>();
   const basket = useSelector((state: any) => state.basket.basket);
   const loading = useSelector((state: any) => state.basket.loading);
- 
+
   useEffect(() => {
     dispatch(fetchBasket());
   }, [dispatch]);
@@ -33,15 +27,14 @@ export default function CartPage() {
   const incrementQuantity = (productId: number, quantity: number) => {
     dispatch(updateBasketItem({ productId, quantity: quantity + 1 }));
   };
-  
+
   const decrementQuantity = (productId: number, quantity: number) => {
     if (quantity > 1) {
       dispatch(updateBasketItem({ productId, quantity: quantity - 1 }));
     }
   };
-
   const [couponCode, setCouponCode] = useState("");
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
 
   const applyCoupon = async () => {
     if (!couponCode) {
@@ -52,14 +45,16 @@ export default function CartPage() {
     try {
       await cartService.applyCode(couponCode);
       dispatch(fetchBasket());
-      toast.success(`Coupon "${couponCode}" applied successfully!`)
-      setCouponCode(""); 
+      toast.success(`Coupon "${couponCode}" applied successfully!`);
+      setCouponCode("");
       setError("");
     } catch (error) {
-      toast.error("Failed to apply coupon. Please try again.")
+      toast.error("Failed to apply coupon. Please try again.");
       setError("Failed to apply coupon. Please try again.");
     }
   };
+
+ 
 
   return (
     <div className="bg-color">
@@ -87,122 +82,125 @@ export default function CartPage() {
         </div>
       </section>
 
-      <div className="shopping-cart-container">
-        <div className="grid-container">
-          <div className="cart-section">
-            <div className="cart-box">
-              <div className="cart-header">
-                <h4>Shopping Cart</h4>
-              </div>
-              <div className="cart-table">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Products</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Sub-Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {basket?.items.map((item: any) => (
-                      <tr>
-                        <td>
-                          <div className="product-info">
-                            <button
-                              onClick={() => handleClearBasket}
-                              className="remove-btn"
-                            >
-                              ❌
-                            </button>
-                            <img
-                              src={productService.getProductImage(
-                                item.productImage
-                              )}
-                              alt="Veg Burger"
-                              className="product-img"
-                            />
-                            <span className="product-name">{item.name}</span>
-                          </div>
-                        </td>
-                        <td>${item.unitPrice}</td>
-                        <td>
-                          <div className="quantity-control">
-                            <button
-                              onClick={() =>
-                                decrementQuantity(item.productId, item.quantity)
-                              }
-                              className="quantity-btn"
-                            >
-                              <FontAwesomeIcon icon={faMinus} /> 
-                            </button>
-                            <span>{item.quantity}</span>
-                            <button
-                              onClick={() =>
-                                incrementQuantity(item.productId, item.quantity)
-                              }
-                              className="quantity-btn"
-                            >
-                              <FontAwesomeIcon icon={faPlus} /> 
-                            </button>
-                          </div>
-                        </td>
-                        <td>${item.totalPrice.toFixed(2) || '0.00'}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+      
+      <div className="row product-list justify-content-center">
+    <div className="col-lg-8">
+        <div className="d-flex align-items-center mb-4">
+            <h5 className="mb-0 flex-grow-1 fw-medium">There are <span className="fw-bold product-count">4</span> products in your cart</h5>
+            <div className="flex-shrink-0">
+                <a href="#!" className="text-decoration-underline link-secondary">Clear Cart</a>
             </div>
-            {error && <p style={{ color: "red" }}>{error}</p>} 
-          </div>
-          
-          {/* Cart Total Section */}
-          <div className="cart-total-section">
-            <div className="cart-total-box">
-              <h4>Cart Total</h4>
-              <div className="totals">
-                <div className="total-item">
-                  <span>Sub-total</span>
-                  <span className={basket.discount > 0 ? 'old-price' : ''}>${basket.totalPrice}</span>
-                </div>
-                <div className="total-item">
-                  <span>Delivery</span>
-                  <span>Free</span>
-                </div>
-                <div className="total-item">
-                  <span>Discount</span>
-                  <span>-${basket.discount}</span>
-                </div>
-                <div className="total-item">
-                  <span>Tax</span>
-                  <span>+${basket.tax}</span>
-                </div>
-                <div className="divider"></div>
-                <div className="total-item total-final">
-                  <span>Total</span>
-                  <span>${basket.grandTotal?.toFixed(2)}</span>
-                </div>
-              </div>
-              <div className="coupon-section">
-                <input
-                  type="text"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  placeholder="Enter Coupon Code"
-                  className="coupon-input"
-                />
-                <button onClick={applyCoupon} className="btn-orange">
-                  Apply Coupon
-                </button>
-              </div>
-              <a href="/yum_b/checkout" className="btn-orange">
-                Proceed to Checkout
-              </a>
-            </div>
-          </div>
         </div>
-      </div>
+        <div className="card product">
+            <div className="card-body p-4">
+                <div className="row gy-3">
+                    <div className="col-sm-auto">
+                        <div className="avatar-lg h-100">
+                            <div className="avatar-title bg-danger-subtle rounded py-3">
+                                <img src="../assets/images/products/img-12.png" alt="" className="avatar-md" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm">
+                        <a href="#!">
+                            <h5 className="fs-16 lh-base mb-1">Branded Smart Chair Red</h5>
+                        </a>
+                        <ul className="list-inline text-muted fs-13 mb-3">
+                            <li className="list-inline-item">Color : <span className="fw-medium">Red</span></li>
+                            <li className="list-inline-item">Size : <span className="fw-medium">M</span></li>
+                        </ul>
+                        <div className="input-step">
+                            <button type="button" className="minus">–</button>
+                            <input type="number" className="product-quantity" value="3" min="0" max="100" />
+                            <button type="button" className="plus">+</button>
+                        </div>
+                    </div>
+                    <div className="col-sm-auto">
+                        <div className="text-lg-end">
+                            <p className="text-muted mb-1 fs-12">Item Price:</p>
+                            <h5 className="fs-16">$<span className="product-price">89.99</span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="card-footer">
+                <div className="row align-items-center gy-3">
+                    <div className="col-sm">
+                        <div className="d-flex flex-wrap my-n1">
+                            <div>
+                                <a href="#!" className="d-block text-body p-1 px-2" data-bs-toggle="modal" data-bs-target="#removeItemModal"><i className="ri-delete-bin-fill text-muted align-bottom me-1"></i> Remove</a>
+                            </div>
+                            <div>
+                                <a href="#!" className="d-block text-body p-1 px-2"><i className="ri-star-fill text-muted align-bottom me-1"></i> Add Wishlist</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-auto">
+                        <div className="d-flex align-items-center gap-2 text-muted">
+                            <div>Total :</div>
+                            <h5 className="fs-14 mb-0">$<span className="product-line-price">269.97</span></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div className="col-lg-4">
+        <div className="sticky-side-div">
+            <div className="card">
+                <div className="card-body">
+                    <div className="text-center">
+                        <h6 className="mb-3 fs-15">Have a <span className="fw-semibold">promo</span> code ?</h6>
+                    </div>
+                    <div className="hstack gap-3 px-3 mx-n3">
+                        <input className="form-control me-auto" type="text" placeholder="Enter coupon code" value="Toner15" aria-label="Add Promo Code here..." />
+                        <button type="button" className="btn btn-primary w-xs">Apply</button>
+                    </div>
+                </div>
+            </div>
+            <div className="card overflow-hidden">
+                <div className="card-header border-bottom-dashed">
+                    <h5 className="card-title mb-0 fs-15">Order Summary</h5>
+                </div>
+                <div className="card-body pt-4">
+                    <div className="table-responsive table-card">
+                        <table className="table table-borderless mb-0 fs-15">
+                            <tbody>
+                                <tr>
+                                    <td>Sub Total :</td>
+                                    <td className="text-end cart-subtotal">$1361.97</td>
+                                </tr>
+                                <tr>
+                                    <td>Discount <span className="text-muted">(Toner15)</span>:</td>
+                                    <td className="text-end cart-discount">-$204.30</td>
+                                </tr>
+                                <tr>
+                                    <td>Shipping Charge :</td>
+                                    <td className="text-end cart-shipping">$65.00</td>
+                                </tr>
+                                <tr>
+                                    <td>Estimated Tax (12.5%) : </td>
+                                    <td className="text-end cart-tax">$170.25</td>
+                                </tr>
+                                <tr className="table-active">
+                                    <th>Total (USD) :</th>
+                                    <td className="text-end">
+                                        <span className="fw-semibold cart-total">$1392.92</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div className="hstack gap-2 justify-content-end">
+                <button type="button" className="btn btn-hover btn-danger">Continue Shopping</button>
+                <button type="button" className="btn btn-hover btn-success">Check Out <i className="ri-logout-box-r-line align-bottom ms-1"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
     </div>
   );
 }

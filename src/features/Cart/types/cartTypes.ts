@@ -1,3 +1,4 @@
+import { Order } from "../../../models/Order"
 import { User } from "../../../models/User"
 
 export interface Basket {
@@ -13,6 +14,7 @@ export interface Basket {
     currency: number
     createdAt : Date
     updatedAt: Date
+    orders: Order[]
 }
 export interface DiscountCode {
     id: number

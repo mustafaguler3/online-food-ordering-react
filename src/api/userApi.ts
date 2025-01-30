@@ -34,6 +34,13 @@ const userApi = {
         console.log("error ",error)
         throw error;
       })
+    },
+    addCreditCard: (card: SavedCard)  => {
+      return axiosClient.post(`/cards/save`,card)
+      .then(res => res.data)
+      .catch(error => {
+        throw error;
+      })
     }
 }
 

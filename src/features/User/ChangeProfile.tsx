@@ -6,7 +6,9 @@ export default function ChangeProfile() {
     const { user } = useUser();
   
   return (
-    <div className="change-profile-content">
+<>
+
+      <div className="change-profile-content">
       <div className="title ng-star-inserted">
         <div className="loader-line ng-star-inserted"></div>
         <h3 className="ng-star-inserted">{t("Change Profile")}</h3>
@@ -54,5 +56,9 @@ export default function ChangeProfile() {
         </li>
       </ul>
     </div>
+</>
+
+
+    
   );
 }

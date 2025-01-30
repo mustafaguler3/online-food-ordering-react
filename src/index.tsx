@@ -7,12 +7,9 @@ import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import { router } from "./router/Routes";
 import { CartProvider } from "./features/Cart/context/CartContext";
-import CartPage from "./features/Cart/pages/CartPage";
 import { UserProvider } from "./features/User/context/UserContext";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
-
-
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

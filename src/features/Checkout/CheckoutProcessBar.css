@@ -1,0 +1,63 @@
+.process-section {
+  padding: calc(10px + 15 * (100vw - 320px) / 1600) calc(10px + .0125*(100vw - 320px));
+  background-color: rgba(var(--white),1);
+}
+
+.process-section .process-list {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+.process-section .process-list li {
+  text-align: center;
+  position: relative
+}
+
+.process-section .process-list li.active .process-icon {
+  border: 1px dashed rgba(var(--theme-color),1)
+}
+
+.process-section .process-list li.active .icon {
+  width: calc(25px + 15 * (100vw - 320px) / 1600)
+}
+
+.process-section .process-list li.active h6 {
+  color: rgba(var(--theme-color),1);
+  font-weight: 500
+}
+
+.process-section .process-list li.active:before {
+  border-bottom-color: rgba(var(--theme-color),1)
+}
+
+.process-section .process-list li.done .process-icon {
+  border: 1px solid rgba(var(--theme-color),1)
+}
+
+.process-section .process-list li.done .icon {
+  width: calc(25px + 15 * (100vw - 320px) / 1600)
+}
+
+.process-section .process-list li.done h6 {
+  color: rgba(var(--theme-color),1)
+}
+
+.process-section .process-list li.done:before {
+  border-bottom-color: rgba(var(--theme-color),1)
+}
+
+.process-section .process-list li:first-child:before {
+  content: none
+}
+
+.process-section .process-list li:before {
+  content: "";
+  position: absolute;
+  right: 40px;
+  top: 30%;
+  width: 290px;
+  height: 1px;
+  border: 1px dashed rgba(var(--dashed-line),1)
+}

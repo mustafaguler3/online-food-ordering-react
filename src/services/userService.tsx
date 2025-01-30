@@ -9,6 +9,11 @@ const userService = {
         console.log("userService saved. ",response)
         return response;
     },
+    addCreditCard: async (card: SavedCard) => {
+        const response = await userApi.addCreditCard(card)
+
+        return response;
+    },
     getUserProfile: async () => {
         const response = await userApi.getUserProfile();
         return response;

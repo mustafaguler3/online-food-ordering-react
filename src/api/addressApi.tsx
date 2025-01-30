@@ -12,6 +12,14 @@ const addressApi = {
         })
         
     },
+    getAddress: (addressId?: any) => {
+        if (!addressId) return Promise.reject("Address ID is required");
+        return axiosClient.get(`${apiUrl}/address/get-address?addressId=${addressId}`)
+        .then(response => response.data)
+        .catch(error => {
+            throw error
+        })
+    }
 }
 
 export default addressApi;

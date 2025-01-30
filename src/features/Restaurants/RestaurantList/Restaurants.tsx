@@ -1,25 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Restaurant } from "../../../models/Restaurant";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import restaurantService from "../../../services/restaurantService";
 import { Product } from "../../../models/Product";
-import {
-  Avatar,
-  Box,
-  CardActionArea,
-  CardHeader,
-  Container,
-  IconButton,
-  Rating,
-} from "@mui/material";
-import { red } from "@mui/material/colors";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfo, faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";

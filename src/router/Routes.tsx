@@ -10,33 +10,46 @@ import Profile from "../features/User/Profile";
 import ChangeProfile from "../features/User/ChangeProfile";
 import SavedAddress from "../features/User/SavedAddress";
 import SavedCards from "../features/User/SavedCards";
+import CheckoutPage from "../features/Checkout/pages/CheckoutPage";
+import ProtectedRoute from "./ProtectedRoute";
+
+const isAuthenticated = localStorage.getItem("accessToken") !== null; // Kullanıcı giriş yapmış mı kontrol et
 
 export const router = createBrowserRouter([
     {
         path: "/",
-        element: <App/>,
+        element: <App />,
         children: [
-            {path:"",element: <Home/>},
-            {path:"/cart",element:<CartPage/>},
-            {path:"/login",element: <Login/>},
-            {path:"/register",element: <Register/>},
+            { path: "", element: <Home /> },
+            { path: "/login", element: <Login /> },
+            { path: "/register", element: <Register /> },
             {
-                path:"profile",element: <Profile />,
-                children: [
-                    {path:"",element: <ChangeProfile />},
-                    {path:"change-profile",element: <ChangeProfile />},
-                    {path:"saved-address",element: <SavedAddress />},
-                    {path:"saved-cards",element: <SavedCards />}
-                ]
+                path: "/cart",
+                element: <ProtectedRoute isAuthenticated={isAuthenticated} />,
+                children: [{ path: "", element: <CheckoutPage /> }],
             },
-
+            {
+                path: "/checkout",
+                element: <ProtectedRoute isAuthenticated={isAuthenticated} />, // Korumalı rota
+                children: [{ path: "", element: <CheckoutPage /> }],
+            },
+            {
+                path: "profile",
+                element: <Profile />, // Kullanıcı profili de korumalı olabilir
+                children: [
+                    { path: "", element: <ChangeProfile /> },
+                    { path: "change-profile", element: <ChangeProfile /> },
+                    { path: "saved-address", element: <SavedAddress /> },
+                    { path: "saved-cards", element: <SavedCards /> },
+                ],
+            },
             {
                 path: "restaurants",
                 children: [
-                    {path:"",element:<Restaurants/>},
-                    {path:":restaurantId",element: <RestaurantDetail/>}
-                ]
-            }
-        ]
-    }
-])
+                    { path: "", element: <Restaurants /> },
+                    { path: ":restaurantId", element: <RestaurantDetail /> },
+                ],
+            },
+        ],
+    },
+]);

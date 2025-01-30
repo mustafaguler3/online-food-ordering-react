@@ -12,6 +12,15 @@ class AddressService {
             console.log("Address error : " +error)
         }
     }
+    async getAddress(addressId?:any) {
+        try {
+            const response = await addressApi.getAddress(addressId);
+
+            return response;
+        }catch(error) {
+            console.log("Error getting address: ")
+        }
+    }
 
 }
 
