@@ -60,7 +60,7 @@ export default function Profile() {
                   </li>
                   <li>
                     <i className="ri-shopping-bag-3-line"></i>
-                    <a href="/account/my-order">My Order</a>
+                    <Link to={`my-orders`}>My Order</Link>
                   </li>
                   <li>
                     <i className="ri-map-pin-line"></i>

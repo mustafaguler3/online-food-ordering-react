@@ -1,3 +1,4 @@
+import { Order } from "./Order"
 import { Product } from "./Product"
 
 export interface Restaurant {
@@ -12,6 +13,7 @@ export interface Restaurant {
     discountPercent: number
     maxDiscountAmount: number
     restaurantIcon: string
+    orders: Order[]
     products: Product[]
 }
 

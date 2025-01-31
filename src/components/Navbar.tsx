@@ -20,12 +20,6 @@ export function Navbar() {
 
   const basket = useSelector((state:any)=> state.basket.basket)
 
-  useEffect(() => {
-    if(user) {
-      loadBasket()
-    }
-    console.log("basket nav ",basket)
-  },[user,loadBasket])
 
   return (
     <header>
@@ -144,7 +138,7 @@ export function Navbar() {
                       </Link>
                     </li>
                     <li>
-                      <Link to="" className="dropdown-item">
+                      <Link to="profile/my-orders" className="dropdown-item">
                         {t("My orders")}
                       </Link>
                     </li>

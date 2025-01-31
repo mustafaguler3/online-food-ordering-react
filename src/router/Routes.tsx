@@ -12,6 +12,7 @@ import SavedAddress from "../features/User/SavedAddress";
 import SavedCards from "../features/User/SavedCards";
 import CheckoutPage from "../features/Checkout/pages/CheckoutPage";
 import ProtectedRoute from "./ProtectedRoute";
+import MyOrders from "../features/User/MyOrders";
 
 const isAuthenticated = localStorage.getItem("accessToken") !== null; // Kullanıcı giriş yapmış mı kontrol et
 
@@ -41,6 +42,7 @@ export const router = createBrowserRouter([
                     { path: "change-profile", element: <ChangeProfile /> },
                     { path: "saved-address", element: <SavedAddress /> },
                     { path: "saved-cards", element: <SavedCards /> },
+                    {path:"my-orders",element:<MyOrders />}
                 ],
             },
             {

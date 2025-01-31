@@ -18,6 +18,24 @@ class OrderService {
         throw error
     }
   }
+  async myOrders() {
+    try {
+      const response = await orderApi.myOrders();
+      return response
+    }catch (error) {
+      console.log("Error my order service ",error)
+      throw error
+  }
+  }
+  async myOrder(orderId:number) {
+    try {
+      const response = await orderApi.myOrder(orderId);
+      return response
+    }catch (error) {
+      console.log("Error my order service ",error)
+      throw error
+  }
+  }
 }
 
 export default new OrderService();
